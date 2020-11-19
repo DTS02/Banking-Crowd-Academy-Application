@@ -25,7 +25,7 @@ const uploadParams = {
 
 const router = express.Router();
 
-router.post('/api/file/upload', auth, upload.single("file"), (req, res) => {
+router.post('/upload', auth, upload.single("file"), (req, res) => {
     const params = uploadParams;
 
     uploadParams.Key = req.file.originalname;

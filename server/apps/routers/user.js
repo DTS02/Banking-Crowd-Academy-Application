@@ -22,17 +22,17 @@ const CheckRole = (...roles) => {
 // Create User
 router.post("/users", async(req, res) => {
     try {
+        if (req.body.passwordConfirm !== req.body.password) {
+            throw Error("Your password is not same with password comfirm!");;
+        }
         const user = new User(req.body);
         const token = await user.generateAuthToken();
         await user.save();
         res.status(201).send({ user, token });
     } catch (err) {
-        res.status(400).send(err);
+        res.status(400).send(err.message);
     }
 });
-
-
-
 
 
 // Login User

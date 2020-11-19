@@ -29,13 +29,14 @@ classRouter.post("/class/", auth, checkRole('teacher'), async(req, res) => {
 
 
         const enroledClass = new Enroled({
-            teacherId: req.body.teacherId,
-            classId: Class._id
+            teacherId: req.user._id,
+            classId: classs._id,
+            statusEnroled: true
         })
         await enroledClass.save();
 
 
-        res.status(201).send({ Class })
+        res.status(201).send({ classs })
     } catch (err) {
         res.status(400).send(err.message);
     }
@@ -45,7 +46,7 @@ classRouter.post("/class/", auth, checkRole('teacher'), async(req, res) => {
 // Update class by ID for teacher
 classRouter.patch("/class/:id", auth, checkRole('teacher'), async(req, res) => {
     const updates = Object.keys(req.body);
-    const allowedUpdates = ["className", "classDetail", "classStart", "classEnd", "classPhoto", ];
+    const allowedUpdates = ["className", "classDetail", "classStart", "classEnd", "classPhoto", "classStatus"];
     const isValidOperation = updates.every((update) =>
         allowedUpdates.includes(update)
     );
@@ -62,12 +63,10 @@ classRouter.patch("/class/:id", auth, checkRole('teacher'), async(req, res) => {
     } catch (err) {
         res.status(500).send(err.message);
     }
-
-
 });
 
 // Delete class
-classRouter.delete("/class/:id", auth, checkRole('teacher'), async(req, res) => {
+classRouter.delete("/class/:id", auth, checkRole('admin'), async(req, res) => {
     const classs = await Class.findByIdAndDelete(req.params.id);
     try {
         classs ? res.status(204).send(classs) : res.status(404).send();
@@ -81,13 +80,7 @@ classRouter.get("/dashboard/class/all", auth, async(req, res) => {
     try {
         const classs = await Class.find({});
         classs ? res.status(200).json({
-            classs,
-            ViewPhoto: {
-                request: {
-                    type: 'GET',
-                    url: 'http://localhost:3000/uploads/' + classs.classphoto
-                }
-            }
+            classs
         }) : res.status(404).send(err.message);
     } catch (err) {
         res.status(500).send(err.message);
@@ -95,14 +88,25 @@ classRouter.get("/dashboard/class/all", auth, async(req, res) => {
 });
 
 
-//get all list for enrol
-classRouter.get("/class/all", auth, async(req, res) => {
+//get all  list for teacher 
+classRouter.get("/class/all", auth, checkRole('teacher', 'admin'), async(req, res) => {
     try {
         const classs = await Class.find({});
         classs ? res.status(200).json({
             classs
+        }) : res.status(404).send(err.message);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+});
 
 
+//get all active class list for dashboard 
+classRouter.get("/class/active", auth, async(req, res) => {
+    try {
+        const classs = await Class.find({ classStatus: true });
+        classs ? res.status(200).json({
+            classs
         }) : res.status(404).send(err.message);
     } catch (err) {
         res.status(500).send(err.message);
@@ -111,22 +115,17 @@ classRouter.get("/class/all", auth, async(req, res) => {
 
 
 //get class by id kalau user pilih spesifik
-classRouter.get("/class/:id", async(req, res) => {
+classRouter.get("/class/:id", auth, async(req, res) => {
     const _id = req.params.id;
     try {
         const classs = await Class.findById(_id);
         classs ? res.status(200).json({
-            classs,
-            ViewPhoto: {
-                request: {
-                    type: 'GET',
-                    url: 'http://localhost:3000/uploads/' + classs.classphoto
-                }
-            }
+            classs
         }) : res.status(404).send();
     } catch (err) {
         res.status(500).send(err.message);
     }
 });
 
+module.exports = classRouter;
 module.exports = classRouter;
