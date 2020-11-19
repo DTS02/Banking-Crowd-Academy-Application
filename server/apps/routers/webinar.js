@@ -2,16 +2,21 @@ const express = require("express");
 const Webinar = require("../models/webinar");
 const Enroled = require("../models/enroled");
 const auth = require("../middleware/auth");
-const upload2aws = require("../middleware/upload2aws");
+//const upload2aws = require("../middleware/awsUploadv2"); // masih bug
 
 const webinarRouter = express.Router();
 
 
-//setup multer
-const multer = require('multer');
-const storage = multer.memoryStorage()
-const upload = multer({ storage: storage });
+// //setup multer
+// const multer = require('multer');
 
+
+// const storage = multer.diskStorage({
+//     filename: function(req, file, cb) {
+//         cb(null, file.originalname);
+//     }
+// })
+// let upload = multer({ storage: storage, limits: { fileSize: 20000000 } })
 
 //check role
 const checkRole = (...roles) => { //...spread operator extrak isi array 
@@ -23,13 +28,15 @@ const checkRole = (...roles) => { //...spread operator extrak isi array
         next();
     };
 };
+// upload.single('file'), upload2aws.upload,
 
-webinarRouter.post("/webinar/", auth, checkRole('teacher'), upload.single("file"), upload2aws, async(req, res) => {
+webinarRouter.post("/webinar/", auth, checkRole('teacher'), async(req, res) => {
     try {
+
 
         //createwebinar
         const webinar = new Webinar({
-            ...req.body
+            ...req.body,
         });
         await webinar.save();
         await console.log(req.body.teacherId + Webinar._id)
@@ -40,7 +47,7 @@ webinarRouter.post("/webinar/", auth, checkRole('teacher'), upload.single("file"
         })
         await enroled.save();
 
-        res.status(201).send({ Webinar, enroled })
+        res.status(201).send({ webinar, enroled })
     } catch (err) {
         res.status(400).send(err.message);
     }

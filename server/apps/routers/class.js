@@ -59,7 +59,7 @@ classRouter.patch("/class/:id", auth, checkRole('teacher'), async(req, res) => {
         updates.forEach((update) => (classs[update] = req.body[update]));
 
         await classs.save();
-        res.status(200).send({ Class })
+        res.status(200).send({ classs })
     } catch (err) {
         res.status(500).send(err.message);
     }

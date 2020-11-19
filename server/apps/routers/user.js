@@ -20,7 +20,7 @@ const CheckRole = (...roles) => {
 
 
 // Create User
-router.post("/users", async(req, res) => {
+router.post("/users/signup", async(req, res) => {
     try {
         if (req.body.passwordConfirm !== req.body.password) {
             throw Error("Your password is not same with password comfirm!");;
@@ -45,7 +45,7 @@ router.post("/users/login", async(req, res) => {
         );
         const token = await user.generateAuthToken();
 
-        res.send({ user, token });
+        res.send({ token });
     } catch (e) {
         res.status(403).send(e.message);
     }
@@ -108,7 +108,7 @@ router.get("/users/:id", async(req, res) => {
 router.patch("/users/me", auth, async(req, res) => {
 
     const updates = Object.keys(req.body);
-    const allowedUpdates = ["firstName", "lastName", "password", "passwordConfrim", "email", "photoProfile"];
+    const allowedUpdates = ["firstName", "lastName", "userName", "password", "passwordConfrim", "email", "photoProfile"];
     const isValidOperation = updates.every((update) =>
         allowedUpdates.includes(update)
     );

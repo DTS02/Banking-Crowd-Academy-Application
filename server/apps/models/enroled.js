@@ -4,10 +4,12 @@ const mongoose = require('mongoose');
 // ini skema database buat tracking murid guru di kelas mana , udah lulus apa belum siswa nya
 const EnroledSchema = new mongoose.Schema({
     classId: {
-        type: mongoose.SchemaTypes.ObjectId,
+        type: String,
+        default: 'n/a'
     },
     webinarId: {
         type: String,
+        default: 'n/a'
     },
     teacherId: {
         type: String,

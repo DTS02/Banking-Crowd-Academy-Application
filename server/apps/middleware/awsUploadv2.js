@@ -1,6 +1,7 @@
 const AWS = require('aws-sdk');
 const awsConfig = require("../config");
-
+const fs = require('fs')
+const respon = require('./awsresponse')
 const s3Client = new AWS.S3({
     accessKeyId: awsConfig.AWS_ID,
     secretAccessKey: awsConfig.AWS_SECRET,
@@ -8,31 +9,27 @@ const s3Client = new AWS.S3({
 });
 
 //console.log(awsConfig)
-const uploadParams = {
-    Bucket: awsConfig.BUCKET_NAME,
-    Key: '', // pass key
-    Body: null, // pass file body
-};
 
 
-
-const upload2aws = async(req, res, next) => {
-    const params = uploadParams;
-
-    uploadParams.Key = req.file.originalname;
-    uploadParams.Body = req.file.buffer;
+exports.upload = async(req, res) => {
+    let path = req.file.path;
+    var url;
+    var params = {
+        Bucket: awsConfig.BUCKET_NAME,
+        Key: `${req.file.originalname}`,
+        Body: fs.createReadStream(path),
+    };
 
     s3Client.upload(params, (err, data) => {
         if (err) {
-            res.status(500).json({ error: "Error -> " + err });
+            return respon.response(res, null, 404, "Error Upload file")
         }
-        console.log('File uploaded successfully', )
-
-        req.file.originalname,
-            data.Location
-        next()
+        if (data) {
+            fs.unlinkSync(path);
+            url = data.Location;
+            return respon.response(res, url, 200, "Upload file Success Url")
+        }
     });
 }
 
-
-module.exports = upload2aws
+//masih bug

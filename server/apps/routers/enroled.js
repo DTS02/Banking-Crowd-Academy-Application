@@ -20,7 +20,7 @@ const checkRole = (...roles) => { //...spread operator extrak isi array
 
 
 //get list enroled id learner by token
-enrollRouter.get("/enroled/class/me", auth, checkRole('learner'), async(req, res) => {
+enrollRouter.get("/enroled/me", auth, checkRole('learner'), async(req, res) => {
     const enroled = await Enroled.find({ learnerId: req.user._id });
     try {
         enroled ? res.status(200).json({
@@ -32,7 +32,7 @@ enrollRouter.get("/enroled/class/me", auth, checkRole('learner'), async(req, res
 });
 
 //get list enroled id teacher by token
-enrollRouter.get("/enroled/class", auth, checkRole('teacher'), async(req, res) => {
+enrollRouter.get("/enroled/teacher", auth, checkRole('teacher'), async(req, res) => {
 
     const enroled = await Enroled.find({ teacherId: req.user._id });
     try {
@@ -44,26 +44,11 @@ enrollRouter.get("/enroled/class", auth, checkRole('teacher'), async(req, res) =
     }
 });
 
-//enroll class for student
-// enrollRouter.post("/enroll/class", auth, checkRole('learner'), async(req, res) => {
-//     // console.log(auth.token)
-//     try {
 
-//         const enroled = new Enroled({
-//             ...req.body //need 
-//         });
-//         await enroled.save();
-//         res.status(201).send({ Enroled });
-//     } catch (err) {
-//         res.status(400).send(err.message);
-//     }
-// });
-
-//enroll Classs  for student
 enrollRouter.post("/enroll/class", auth, checkRole('learner'), async(req, res) => {
 
     try {
-        const cekenroled = await Enroled.find({ classId: req.body.classId, learnerId: req.user._id, });
+        const cekenroled = await Enroled.findOne({ classId: req.body.classId, learnerId: req.user._id, });
         if (cekenroled) {
             throw Error("already registered"); // user belum terdaftar
         }
@@ -84,8 +69,31 @@ enrollRouter.post("/enroll/class", auth, checkRole('learner'), async(req, res) =
 });
 
 
+enrollRouter.post("/enroll/webinar", auth, checkRole('learner'), async(req, res) => {
 
-// Delete enroll
+    try {
+        const cekenroled = await Enroled.findOne({ webinarId: req.body.webinarId, learnerId: req.user._id, });
+        if (cekenroled) {
+            throw Error("already registered"); // user belum terdaftar
+        }
+
+        const enroled = new Enroled({
+            webinarId: req.body.webinarId,
+            graduationStatus: false,
+            learnerId: req.user._id,
+            teacherId: req.body.teacherId,
+            schedule: req.body.schedule
+
+        });
+        await enroled.save();
+        res.status(201).send({ enroled });
+    } catch (err) {
+        res.status(400).send(err.message);
+    }
+});
+
+
+// Delete enroll class
 enrollRouter.delete("/enroled/:classId", auth, checkRole('learner'), async(req, res) => {
     const enroled = await Enroled.findOneAndDelete({
         learnId: req.user._id, //dari auth
@@ -97,6 +105,21 @@ enrollRouter.delete("/enroled/:classId", auth, checkRole('learner'), async(req, 
         res.status(500).send(err.message);
     }
 });
+// Delete enroll webinar
+enrollRouter.delete("/enroled/:webinarId", auth, checkRole('learner'), async(req, res) => {
+    const enroled = await Enroled.findOneAndDelete({
+        learnId: req.user._id, //dari auth
+        webinarId: req.params.webinarId //dari parameter webinarId
+    });
+    try {
+        enroled ? res.status(204).send("enrole deleted") : res.status(404).send();
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+});
+
+
+
 
 //get all list for enroll
 enrollRouter.get("/enroled/all", auth, async(req, res) => {
@@ -110,25 +133,27 @@ enrollRouter.get("/enroled/all", auth, async(req, res) => {
     }
 });
 
-// kelas ku / narik kelas pake parameter learnId yang di dapat dari token
-enrollRouter.get("/enroled/me", auth, checkRole('learner'), async(req, res) => {
+// Update graduationStatus by ID enroled for teacher
+classRouter.patch("/enroled/:id", auth, checkRole('teacher'), async(req, res) => {
+    const updates = Object.keys(req.body);
+    const allowedUpdates = ["graduationStatus"];
+    const isValidOperation = updates.every((update) =>
+        allowedUpdates.includes(update)
+    );
+    if (!isValidOperation) {
+        return res.status(400).send();
+    }
+
     try {
-        const enroled = await Enroled.find({ learnerId: req.user._id });
-        res.status(200).send({ enroled });
+        const enroled = await Enroled.findById(req.params.id);
+        updates.forEach((update) => (enroled[update] = req.body[update]));
+
+        await enroled.save();
+        res.status(200).send({ enroled })
     } catch (err) {
         res.status(500).send(err.message);
     }
 });
 
-
-// kelas ku / narik kelas pake parameter learnId yang di dapat dari token
-enrollRouter.get("/enroled/:classId", auth, async(req, res) => {
-    try {
-        const enroled = await Enroled.find({ learnerId: req.params.classId });
-        res.status(200).send({ enroled });
-    } catch (err) {
-        res.status(500).send(err.message);
-    }
-});
 
 module.exports = enrollRouter;

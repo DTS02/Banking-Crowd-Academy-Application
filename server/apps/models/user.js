@@ -15,6 +15,12 @@ const userSchema = new mongoose.Schema({
         trim: true,
         required: [true, "Please tell your last name!"],
     },
+    userName: {
+        type: String,
+        unique: true,
+        trim: true,
+        required: [true, "Please tell your last name!"],
+    },
     photoProfile: {
         type: String,
         trim: true,
