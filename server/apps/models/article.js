@@ -1,21 +1,30 @@
 const mongoose = require('mongoose');
 
-const classSchema = new mongoose.Schema({
-    topicName: {
+//skema artikel dalam topik
+const articleSchema = new mongoose.Schema({
+    topicId: {
         type: String,
-        required: [true, "Please input topic name!"]
+        required: [true, "Please input ID Topic!"]
     },
-    topicDetail: {
+   articleName: {
         type: String,
-        required: [true, "Please input topic detail!"]
+        required: [true, "Please input article name!"]
     },
-    topicDokumen: {
+    articleDetail: {
         type: String,
-        required: [true, "Please input topic dokumen!"]
+        required: [true, "Please input article detail!"]
+    },
+    articleDocument: {
+        type: String,
+        required: [true, "Please Input article document!"]
+    },
+    indexArticle: {
+        type: String,
+        required: [true, "Pleas input index aricle!"]
     },
 
 }, { timestamps: true });
 
-const Article = mongoose.model('Class', classSchema);
+const Article = mongoose.model('Article', articleSchema);
 
 module.exports = Article;
