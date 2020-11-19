@@ -1,15 +1,8 @@
 const express = require("express");
-const Class = require("../models/class");
-const Enroled = require("../models/enroledclass");
 const auth = require("../middleware/auth");
 const Article = require("../models/article");
 
-
-
-const classRouter = express.Router();
-
-
-
+const articleRouter = express.Router();
 
 //check role
 const checkRole = (...roles) => { //...spread operator extrak isi array 
@@ -27,19 +20,10 @@ articleRouter.post("/article/", auth, checkRole('teacher'), async(req, res) => {
     try {
 
         //createarticle
-        const classs = new Article({
+        const article = new Article({
             ...req.body
         });
-        await classs.save();
-        console.log(req.body.teacherId + Article._id)
-
-
-        const enroledClass = new Enroled({
-            teacherId: req.body.teacherId,
-            classId: Article._id
-        })
-        await enroledClass.save();
-
+        await article.save();
 
         res.status(201).send({ Article })
     } catch (err) {
@@ -48,12 +32,35 @@ articleRouter.post("/article/", auth, checkRole('teacher'), async(req, res) => {
 
 });
 
+// Update Article
+articleRouter.patch("/article/:id", auth, checkRole('teacher'), async(req, res) => {
+    const updates = Object.keys(req.body);
+    const allowedUpdates = ["topicId", "articleName", "articleDetail", "articleDocument", "indexArticle" ];
+    const isValidOperation = updates.every((update) =>
+        allowedUpdates.includes(update)
+    );
+    if (!isValidOperation) {
+        return res.status(400).send();
+    }
 
-// Delete class
-articleRouter.delete("/article/:id", auth, checkRole('teacher'), async(req, res) => {
-    const classs = await Article.findByIdAndDelete(req.params.id);
     try {
-        classs ? res.status(204).send(classs) : res.status(404).send();
+        const article = await Article.findById(req.params.id);
+        updates.forEach((update) => (article[update] = req.body[update]));
+
+        await article.save();
+        article ? res.status(200).json({
+            article
+        }) : res.status(404).send(err.message);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+});
+
+// Delete Article
+articleRouter.delete("/article/:id", auth, checkRole('teacher'), async(req, res) => {
+    const article = await Article.findByIdAndDelete(req.params.id);
+    try {
+        article ? res.status(204).send(article) : res.status(404).send();
     } catch (err) {
         res.status(500).send(err.message);
     }
@@ -75,7 +82,7 @@ articleRouter.get("/article/all", auth, async(req, res) => {
 });
 
 
-//get class by id 
+//get article by id 
 articleRouter.get("/article/:id", async(req, res) => {
     const article = await Article.findById(req.params.id);
 
@@ -88,4 +95,4 @@ articleRouter.get("/article/:id", async(req, res) => {
     }
   });
 
-module.exports = classRouter;
+module.exports = articleRouter;

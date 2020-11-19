@@ -1,13 +1,16 @@
 const express = require("express");
 const morgan = require("morgan");
 require("./databases/database");
+
 const userRouter = require("./routers/user");
 const classRouter = require("./routers/class");
 const topicRouter = require("./routers/topic");
 const uploadaws = require("./routers/awsUploadv2");
 const dashboard = require("./routers/dashboardAdmin");
-
 const enrolClassRouter = require("./routers/enroledClass");
+const articleRouter = require("./routers/article");
+const portfolioRouter = require("./routers/portfolio");
+
 const bodyParser = require("body-parser");
 const auth = require("./middleware/auth");
 //const send = require('./middleware/awsUpload');
@@ -32,6 +35,8 @@ app.use(userRouter);
 app.use(classRouter);
 app.use(topicRouter);
 app.use(enrolClassRouter);
+app.use(articleRouter);
+app.use(portfolioRouter);
 app.use(uploadaws);
 app.use(dashboard);
 
