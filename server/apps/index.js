@@ -11,6 +11,11 @@ const webinar = require("./routers/webinar");
 const articleRouter = require("./routers/article");
 const portfolioRouter = require("./routers/portfolio")
 const enrolClassRouter = require("./routers/enroled");
+const commentArticleRouter = require("./routers/commentArticle");
+const commentClassRouter = require("./routers/commentClass");
+const likeArticleRouter = require("./routers/likeArticle");
+const likeClassRouter = require("./routers/likeClass");
+
 const bodyParser = require("body-parser");
 const auth = require("./middleware/auth");
 //const send = require('./middleware/awsUpload');
@@ -40,6 +45,10 @@ app.use(portfolioRouter);
 app.use(uploadaws);
 app.use(dashboard);
 app.use(webinar);
+app.use(commentArticleRouter);
+app.use(commentClassRouter);
+app.use(likeArticleRouter);
+app.use(likeClassRouter);
 
 const Checkverify = (...statususer) => {
     return (req, res, next) => {

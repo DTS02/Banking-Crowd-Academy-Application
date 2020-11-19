@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 
 //skema portfolio
 const portfolioSchema = new mongoose.Schema({
+    userId: {
+        type: String,
+    },
     portfolioName: {
         type: String,
         required: [true, "Please input portfolio name!"]
