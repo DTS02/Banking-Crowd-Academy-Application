@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+//Skema model untuk kelas
 const classSchema = new mongoose.Schema({
     className: {
         type: String,

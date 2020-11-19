@@ -3,12 +3,7 @@ const Class = require("../models/class");
 const Enroled = require("../models/enroledclass");
 const auth = require("../middleware/auth");
 
-
-
 const classRouter = express.Router();
-
-
-
 
 //check role
 const checkRole = (...roles) => { //...spread operator extrak isi array 

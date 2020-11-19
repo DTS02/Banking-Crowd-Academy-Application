@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 //const { stringify } = require('querystring');  // ini buat apa ya??? @rian
 
-
+//skema topik berada dalam kelas
 const topicSchema = new mongoose.Schema({
     classId: {
         type: String

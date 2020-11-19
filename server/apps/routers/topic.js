@@ -78,7 +78,6 @@ topicRouter.get("/class/topic/all", auth, async(req, res) => {
     }
 });
 
-
 //get all list for enrol
 topicRouter.get("/topic/all", auth, async(req, res) => {
     try {
@@ -90,7 +89,6 @@ topicRouter.get("/topic/all", auth, async(req, res) => {
         res.status(500).send(err.message);
     }
 });
-
 
 //get class by id jika user pilih spesifik
 topicRouter.get("/topic/:id", async(req, res) => {
