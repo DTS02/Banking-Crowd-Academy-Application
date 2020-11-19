@@ -6,7 +6,7 @@ const likeClassSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please input userId!"]
     },
-   classId: {
+    classId: {
         type: String,
         required: [true, "Please input classId!"]
     },
@@ -17,6 +17,6 @@ const likeClassSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
-const likeClass = mongoose.model('likeClass', likeClassSchema);
+const LikeClass = mongoose.model('LikeClass', likeClassSchema);
 
-module.exports = likeClass;
+module.exports = LikeClass;

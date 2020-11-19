@@ -78,10 +78,12 @@ classRouter.delete("/class/:id", auth, checkRole('admin'), async(req, res) => {
 //get all list detail  buat dashboard home
 classRouter.get("/dashboard/class/all", auth, async(req, res) => {
     try {
-        const classs = await Class.find({ classStatus: true });
-        classs ? res.status(200).json({
-            classs
-        }) : res.status(404).send(err.message);
+        const classs = await Class.find({ classStatus: false });
+        if (classs) {
+            res.status(200).json(classs)
+        } else {
+            res.status(404).json({ message: 'Class not found' })
+        }
     } catch (err) {
         res.status(500).send(err.message);
     }
@@ -92,9 +94,11 @@ classRouter.get("/dashboard/class/all", auth, async(req, res) => {
 classRouter.get("/class/all", auth, checkRole('teacher', 'admin'), async(req, res) => {
     try {
         const classs = await Class.find({});
-        classs ? res.status(200).json({
-            classs
-        }) : res.status(404).send(err.message);
+        if (classs) {
+            res.status(200).json(classs)
+        } else {
+            res.status(404).json({ message: 'Users not found' })
+        }
     } catch (err) {
         res.status(500).send(err.message);
     }

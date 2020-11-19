@@ -1,5 +1,6 @@
 const express = require("express");
 const Enroled = require("../models/enroled");
+const Activity = require("../models/Activity");
 const auth = require("../middleware/auth");
 
 const enrollRouter = express.Router();
@@ -62,7 +63,15 @@ enrollRouter.post("/enroll/class", auth, checkRole('learner'), async(req, res) =
 
         });
         await enroled.save();
-        res.status(201).send({ enroled });
+
+        const activity = new Activity({
+            userId: req.user._id,
+            activityTitle: "enroll Class ",
+            activityDetail: "classId : " + req.body.classId
+        });
+        await activity.save();
+
+        res.status(201).send(enroled, activity);
     } catch (err) {
         res.status(400).send(err.message);
     }
@@ -83,10 +92,18 @@ enrollRouter.post("/enroll/webinar", auth, checkRole('learner'), async(req, res)
             learnerId: req.user._id,
             teacherId: req.body.teacherId,
             schedule: req.body.schedule
-
         });
         await enroled.save();
-        res.status(201).send({ enroled });
+
+        const activity = new Activity({
+            userId: req.user._id,
+            activityTitle: "enroll Webinar ",
+            activityDetail: "webinarId : " + req.body.classId
+        });
+        await activity.save();
+
+
+        res.status(201).send(enroled, activity);
     } catch (err) {
         res.status(400).send(err.message);
     }
@@ -134,7 +151,7 @@ enrollRouter.get("/enroled/all", auth, async(req, res) => {
 });
 
 // Update graduationStatus by ID enroled for teacher
-classRouter.patch("/enroled/:id", auth, checkRole('teacher'), async(req, res) => {
+enrollRouter.patch("/enroled/:id", auth, checkRole('teacher'), async(req, res) => {
     const updates = Object.keys(req.body);
     const allowedUpdates = ["graduationStatus"];
     const isValidOperation = updates.every((update) =>

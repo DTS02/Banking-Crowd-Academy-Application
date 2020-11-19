@@ -25,7 +25,14 @@ portfolioRouter.post("/portfolio/", auth, async(req, res) => {
         });
         await portfolio.save();
 
-        res.status(201).send({ Portfolio });
+        const activity = new Activity({
+            userId: req.user._id,
+            activityTitle: "Upload Portfolio ",
+            activityDetail: "portfolioId : " + req.body.classId
+        });
+        await activity.save();
+
+        res.status(201).send(Portfolio, activity);
     } catch (err) {
         res.status(400).send(err.message);
     }
@@ -114,14 +121,14 @@ portfolioRouter.get("/portfolio/:userId", async(req, res) => {
 
 //get portfolio by user id
 portfolioRouter.get("/portfolio/user/:id", async(req, res) => {
-    const portfolio = await Portfolio.find({userId: req.user._id});
+    const portfolio = await Portfolio.find({ userId: req.params.id });
 
-    if(portfolio) {
-      res.json(portfolio)
+    if (portfolio) {
+        res.json(portfolio)
     } else {
-      res.status(404).json({
-        message: 'Article not found'
-      })
+        res.status(404).json({
+            message: 'Article not found'
+        })
     }
 })
 

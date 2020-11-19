@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const portfolioSchema = new mongoose.Schema({
     userId: {
         type: String,
+        required: [true, "Please Login/Input user manual!"]
     },
     portfolioName: {
         type: String,
@@ -17,10 +18,6 @@ const portfolioSchema = new mongoose.Schema({
     portfolioFile: {
         type: String,
         required: [true, "Please input portfolio file!"]
-    },
-    userId: {
-        type: String,
-        required: [true, "Please Login/Input user manual!"]
     }
 
 }, { timestamps: true });
