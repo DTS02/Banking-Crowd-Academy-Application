@@ -15,7 +15,7 @@ const commentArticleRouter = require("./routers/commentArticle");
 const commentClassRouter = require("./routers/commentClass");
 const likeArticleRouter = require("./routers/likeArticle");
 const likeClassRouter = require("./routers/likeClass");
-//const dailyActivityRouter = require("./routers/dailyActivity");
+const dailyActivityRouter = require("./routers/dailyActivity");
 
 const bodyParser = require("body-parser");
 const auth = require("./middleware/auth");
@@ -50,7 +50,7 @@ app.use(commentArticleRouter);
 app.use(commentClassRouter);
 app.use(likeArticleRouter);
 app.use(likeClassRouter);
-//app.use(dailyActivityRouter);
+app.use(dailyActivityRouter);
 
 const Checkverify = (...statususer) => {
     return (req, res, next) => {

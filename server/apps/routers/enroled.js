@@ -1,6 +1,6 @@
 const express = require("express");
 const Enroled = require("../models/enroled");
-const Activity = require("../models/Activity");
+const Activity = require("../models/activity");
 const auth = require("../middleware/auth");
 
 const enrollRouter = express.Router();
