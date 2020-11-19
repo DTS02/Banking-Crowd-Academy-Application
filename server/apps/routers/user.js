@@ -47,7 +47,7 @@ router.post("/users/login", async(req, res) => {
 
         res.send({ user, token });
     } catch (e) {
-        res.status(403).send(e);
+        res.status(403).send(e.message);
     }
 });
 
@@ -162,13 +162,13 @@ router.delete("/users/:id", auth, CheckRole("admin"), async(req, res) => {
 });
 
 
-router.get("/users/verification/?token", auth, (req, res) => {
+// router.get("/users/verification/?token", auth, (req, res) => {
 
 
 
-    res.send(req.user);
+//     res.send(req.user);
 
-});
+// });
 
 
 // func email verifikasi
