@@ -117,7 +117,7 @@ enrollRouter.delete("/enroled/:classId", auth, checkRole('learner'), async(req, 
         classId: req.params.classId //dari parameter classid
     });
     try {
-        enroled ? res.status(204).send("enrole deleted") : res.status(404).send();
+        enroled ? res.status(204).send("enroll class deleted") : res.status(404).send();
     } catch (err) {
         res.status(500).send(err.message);
     }

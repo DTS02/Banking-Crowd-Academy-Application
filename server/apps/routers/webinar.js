@@ -82,7 +82,7 @@ webinarRouter.patch("/webinar/:id", auth, checkRole('teacher'), async(req, res) 
 webinarRouter.delete("/webinar/:id", auth, checkRole('teacher'), async(req, res) => {
     const webinar = await Webinar.findByIdAndDelete(req.params.id);
     try {
-        webinar ? res.status(204).send(webinar) : res.status(404).send();
+        webinar ? res.status(204).send("webinar deleted!") : res.status(404).send();
     } catch (err) {
         res.status(500).send(err.message);
     }

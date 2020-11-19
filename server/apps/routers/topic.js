@@ -60,7 +60,7 @@ topicRouter.patch("/topic/:id", auth, checkRole('teacher'), async(req, res) => {
 topicRouter.delete("/topic/:id", auth, checkRole('teacher'), async(req, res) => {
     const topic = await Topic.findByIdAndDelete(req.params.id);
     try {
-        topic ? res.status(204).send(topic) : res.status(404).send();
+        topic ? res.status(204).send("Topic deleted!") : res.status(404).send();
     } catch (err) {
         res.status(500).send();
     }

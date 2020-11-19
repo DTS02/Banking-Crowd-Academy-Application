@@ -35,7 +35,7 @@ commentClassRouter.post("/class/comment", auth, async(req, res) => {
 commentClassRouter.delete("/class/comment/:id", auth, async(req, res) => {
     const commentC = await commentClass.findByIdAndDelete(req.params.id);
     try {
-        commentC ? res.status(204).send(commentC) : res.status(404).send();
+        commentC ? res.status(204).send("Comment deleted!") : res.status(404).send();
     } catch (err) {
         res.status(500).send(err.message);
     }

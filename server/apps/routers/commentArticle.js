@@ -35,7 +35,7 @@ commentArticleRouter.post("/article/comment", auth, async(req, res) => {
 commentArticleRouter.delete("/article/comment/:id", auth, async(req, res) => {
     const commentA = await commentArticle.findByIdAndDelete(req.params.id);
     try {
-        commentA ? res.status(204).send(commentA) : res.status(404).send();
+        commentA ? res.status(204).send("Comment deleted!") : res.status(404).send();
     } catch (err) {
         res.status(500).send(err.message);
     }
