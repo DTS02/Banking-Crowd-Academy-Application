@@ -8,7 +8,7 @@ const likeClassRouter = express.Router();
 const checkRole = (...roles) => { //...spread operator extrak isi array 
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {
-            return res.send(403) // error fobbriden
+            return res.send(403) // error forbidden
         }
 
         next();
@@ -35,7 +35,7 @@ likeClassRouter.post("/class/like", auth, async(req, res) => {
 likeClassRouter.delete("/class/like/:id", auth, async(req, res) => {
     const likeC = await likeClass.findByIdAndDelete(req.params.id);
     try {
-        likeC ? res.status(204).send(likeC) : res.status(404).send();
+        likeC ? res.status(204).send("Like deleted!") : res.status(404).send();
     } catch (err) {
         res.status(500).send(err.message);
     }
@@ -62,7 +62,7 @@ likeClassRouter.get("/class/like/user/:id", async(req, res) => {
       res.json(likeC)
     } else {
       res.status(404).json({
-        message: 'You have never likeed!'
+        message: 'You have never liked!'
       })
     }
 })

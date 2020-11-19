@@ -8,7 +8,7 @@ const likeArticleRouter = express.Router();
 const checkRole = (...roles) => { //...spread operator extrak isi array 
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {
-            return res.send(403) // error fobbriden
+            return res.send(403) // error forbidden
         }
 
         next();
@@ -35,7 +35,7 @@ likeArticleRouter.post("/article/like", auth, async(req, res) => {
 likeArticleRouter.delete("/article/like/:id", auth, async(req, res) => {
     const likeA = await likeArticle.findByIdAndDelete(req.params.id);
     try {
-        likeA ? res.status(204).send(likeA) : res.status(404).send();
+        likeA ? res.status(204).send("like deleted!") : res.status(404).send();
     } catch (err) {
         res.status(500).send(err.message);
     }
