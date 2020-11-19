@@ -15,9 +15,6 @@ const EnroledSchema = new mongoose.Schema({
     learnerId: {
         type: String,
     },
-    topicId: {
-        type: String,
-    },
     jadwal: {
         type: String,
         required: false,
@@ -30,6 +27,5 @@ const EnroledSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const Enroled = mongoose.model('Enroled', EnroledSchema);
-
 
 module.exports = Enroled;

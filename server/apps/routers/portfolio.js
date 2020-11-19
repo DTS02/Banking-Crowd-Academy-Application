@@ -35,7 +35,7 @@ portfolioRouter.post("/portfolio/", auth, async(req, res) => {
 // Update Portfolio
 portfolioRouter.patch("/portfolio/:id", auth, async(req, res) => {
     const updates = Object.keys(req.body);
-    const allowedUpdates = ["portfolioName", "portfolioDetail", "portfolioFile"];
+    const allowedUpdates = ["userId", "portfolioName", "portfolioDetail", "portfolioFile"];
     const isValidOperation = updates.every((update) =>
         allowedUpdates.includes(update)
     );
@@ -67,7 +67,7 @@ portfolioRouter.delete("/portfolio/:id", auth, async(req, res) => {
 });
 
 
-//get all list article
+//get all list portfolio
 portfolioRouter.get("/portfolio/all", auth, async(req, res) => {
     try {
         const portfolio = await Portfolio.find({});
@@ -82,7 +82,7 @@ portfolioRouter.get("/portfolio/all", auth, async(req, res) => {
 });
 
 
-//get article by id 
+//get portfolio by id 
 portfolioRouter.get("/portfolio/:id", async(req, res) => {
     const portfolio = await Portfolio.findById(req.params.id);
 
@@ -94,5 +94,18 @@ portfolioRouter.get("/portfolio/:id", async(req, res) => {
       })
     }
   });
+
+//get portfolio by user id
+portfolioRouter.get("/portfolio/user/:id", async(req, res) => {
+    const portfolio = await Portfolio.find({userId: req.user._id});
+
+    if(portfolio) {
+      res.json(portfolio)
+    } else {
+      res.status(404).json({
+        message: 'Article not found'
+      })
+    }
+})
 
 module.exports = portfolioRouter;
