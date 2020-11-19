@@ -72,7 +72,7 @@ const userSchema = new mongoose.Schema({
     verification: {
         type: Boolean,
         default: false,
-    },
+    }
     // class: [{
     //     type: mongoose.Schema.Types.ObjectId,
     //     ref: "class"

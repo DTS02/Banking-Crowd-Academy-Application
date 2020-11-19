@@ -37,15 +37,15 @@ enrolClassRouter.get("/users/teacher", auth, checkRole('teacher'), async(req, re
     }
 });
 
-//create topic
+//enroll class
 enrolClassRouter.post("/class/enroll", auth, checkRole('learner', 'teacher'), async(req, res) => {
     // console.log(auth.token)
     try {
 
-        const enroled = new({
+        const enroled = new Enroled({
             ...req.body //need 
         });
-        await enrole.save();
+        await enroled.save();
         res.status(201).send({Enroled});
     } catch (err) {
         res.status(400).send(err.message);
@@ -78,10 +78,8 @@ enrolClassRouter.get("/enroledClass/all", auth, checkRole('learner'), async(req,
 // kelas ku / narik kelas pake parameter learnId yang di dapat dari token
 enrolClassRouter.get("/enroledClass/me", auth, checkRole('learner'), async(req, res) => {
     try {
-        const enroled = await Enroled.find({ learnId: req.user._id });
-        enroled ? res.status(200).json({
-            enroled
-        }) : res.status(404).send();
+        const enroled = await Enroled.find({ learnerId: req.user._id });
+        res.status(200).send({enroled});
     } catch (err) {
         res.status(500).send(err.message);
     }

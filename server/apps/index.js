@@ -7,7 +7,7 @@ const topicRouter = require("./routers/topic");
 const uploadaws = require("./routers/awsUploadv2");
 const dashboard = require("./routers/dashboardAdmin");
 
-const enrolClassRouter = require("./routers/enroledclass");
+const enrolClassRouter = require("./routers/enroledClass");
 const bodyParser = require("body-parser");
 const auth = require("./middleware/auth");
 //const send = require('./middleware/awsUpload');
