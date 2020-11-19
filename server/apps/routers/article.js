@@ -60,7 +60,7 @@ articleRouter.patch("/article/:id", auth, checkRole('teacher'), async(req, res) 
 articleRouter.delete("/article/:id", auth, checkRole('teacher'), async(req, res) => {
     const article = await Article.findByIdAndDelete(req.params.id);
     try {
-        article ? res.status(204).send(article) : res.status(404).send();
+        article ? res.status(204).send("article deleted") : res.status(404).send();
     } catch (err) {
         res.status(500).send(err.message);
     }

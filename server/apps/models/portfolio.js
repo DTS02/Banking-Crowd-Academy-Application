@@ -15,6 +15,10 @@ const portfolioSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please input portfolio file!"]
     },
+    userId: {
+        type: String,
+        required: [true, "Please Login/Input user manual!"]
+    }
 
 }, { timestamps: true });
 

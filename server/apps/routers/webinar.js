@@ -2,8 +2,16 @@ const express = require("express");
 const Webinar = require("../models/webinar");
 const Enroled = require("../models/enroled");
 const auth = require("../middleware/auth");
+const upload2aws = require("../middleware/upload2aws");
 
 const webinarRouter = express.Router();
+
+
+//setup multer
+const multer = require('multer');
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage });
+
 
 //check role
 const checkRole = (...roles) => { //...spread operator extrak isi array 
@@ -16,8 +24,7 @@ const checkRole = (...roles) => { //...spread operator extrak isi array
     };
 };
 
-
-webinarRouter.post("/webinar/", auth, checkRole('teacher'), async(req, res) => {
+webinarRouter.post("/webinar/", auth, checkRole('teacher'), upload.single("file"), upload2aws, async(req, res) => {
     try {
 
         //createwebinar

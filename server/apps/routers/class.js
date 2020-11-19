@@ -69,7 +69,7 @@ classRouter.patch("/class/:id", auth, checkRole('teacher'), async(req, res) => {
 classRouter.delete("/class/:id", auth, checkRole('admin'), async(req, res) => {
     const classs = await Class.findByIdAndDelete(req.params.id);
     try {
-        classs ? res.status(204).send(classs) : res.status(404).send();
+        classs ? res.status(204).send("class deleted") : res.status(404).send();
     } catch (err) {
         res.status(500).send(err.message);
     }
@@ -78,7 +78,7 @@ classRouter.delete("/class/:id", auth, checkRole('admin'), async(req, res) => {
 //get all list detail  buat dashboard home
 classRouter.get("/dashboard/class/all", auth, async(req, res) => {
     try {
-        const classs = await Class.find({});
+        const classs = await Class.find({ classStatus: true });
         classs ? res.status(200).json({
             classs
         }) : res.status(404).send(err.message);
@@ -101,17 +101,7 @@ classRouter.get("/class/all", auth, checkRole('teacher', 'admin'), async(req, re
 });
 
 
-//get all active class list for dashboard 
-classRouter.get("/class/active", auth, async(req, res) => {
-    try {
-        const classs = await Class.find({ classStatus: true });
-        classs ? res.status(200).json({
-            classs
-        }) : res.status(404).send(err.message);
-    } catch (err) {
-        res.status(500).send(err.message);
-    }
-});
+
 
 
 //get class by id kalau user pilih spesifik
@@ -127,5 +117,4 @@ classRouter.get("/class/:id", auth, async(req, res) => {
     }
 });
 
-module.exports = classRouter;
 module.exports = classRouter;

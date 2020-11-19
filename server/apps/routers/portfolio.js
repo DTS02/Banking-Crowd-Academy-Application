@@ -60,14 +60,14 @@ portfolioRouter.patch("/portfolio/:id", auth, async(req, res) => {
 portfolioRouter.delete("/portfolio/:id", auth, async(req, res) => {
     const portfolio = await Portfolio.findByIdAndDelete(req.params.id);
     try {
-        portfolio ? res.status(204).send(portfolio) : res.status(404).send();
+        portfolio ? res.status(204).send("portfolio deleted") : res.status(404).send();
     } catch (err) {
         res.status(500).send(err.message);
     }
 });
 
 
-//get all list article
+//get all list portfolio
 portfolioRouter.get("/portfolio/all", auth, async(req, res) => {
     try {
         const portfolio = await Portfolio.find({});
@@ -82,17 +82,34 @@ portfolioRouter.get("/portfolio/all", auth, async(req, res) => {
 });
 
 
-//get article by id 
+//get portfolio by id 
 portfolioRouter.get("/portfolio/:id", async(req, res) => {
     const portfolio = await Portfolio.findById(req.params.id);
 
-    if(portfolio) {
-      res.json(portfolio)
+    if (portfolio) {
+        res.json(portfolio)
     } else {
-      res.status(404).json({
-        message: 'Article not found'
-      })
+        res.status(404).json({
+            message: 'Article not found'
+        })
     }
-  });
+});
+
+//get portfolio by user id 
+portfolioRouter.get("/portfolio/:userId", async(req, res) => {
+    try {
+        const portfolio = await Portfolio.find({
+            userId: req.params.userId
+        });
+
+        portfolio ? res.status(200).json({
+            portfolio
+
+
+        }) : res.status(404).send(err.message);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+});
 
 module.exports = portfolioRouter;
