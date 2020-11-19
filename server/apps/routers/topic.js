@@ -25,7 +25,7 @@ topicRouter.post("/topic/", auth, checkRole('teacher'), async(req, res) => {
         });
         await topic.save();
 
-        res.status(201).send({ Topic });
+        res.status(201).send({ topic });
 
     } catch (err) {
         res.status(400).send(err.message);

@@ -35,7 +35,7 @@ articleRouter.post("/article/", auth, checkRole('teacher'), async(req, res) => {
 // Update Article
 articleRouter.patch("/article/:id", auth, checkRole('teacher'), async(req, res) => {
     const updates = Object.keys(req.body);
-    const allowedUpdates = ["topicId", "articleName", "articleDetail", "articleDocument", "indexArticle" ];
+    const allowedUpdates = ["topicId", "articleName", "articleDetail", "articleDocument", "indexArticle"];
     const isValidOperation = updates.every((update) =>
         allowedUpdates.includes(update)
     );
@@ -86,13 +86,13 @@ articleRouter.get("/article/all", auth, async(req, res) => {
 articleRouter.get("/article/:id", async(req, res) => {
     const article = await Article.findById(req.params.id);
 
-    if(article) {
-      res.json(article)
+    if (article) {
+        res.json(article)
     } else {
-      res.status(404).json({
-        message: 'Article not found'
-      })
+        res.status(404).json({
+            message: 'Article not found'
+        })
     }
-  });
+});
 
 module.exports = articleRouter;

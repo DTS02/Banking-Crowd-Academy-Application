@@ -27,13 +27,11 @@ webinarRouter.post("/webinar/", auth, checkRole('teacher'), async(req, res) => {
         await webinar.save();
         await console.log(req.body.teacherId + Webinar._id)
 
-
         const enroled = new Enroled({
-            teacherId: req.body.teacherId,
-            webinarId: Webinar._id
+            teacherId: req.user._id,
+            webinarId: webinar._id
         })
         await enroled.save();
-
 
         res.status(201).send({ Webinar, enroled })
     } catch (err) {

@@ -1,6 +1,5 @@
 const express = require("express");
 const Enroled = require("../models/enroled");
-const User = require("../models/user");
 const auth = require("../middleware/auth");
 
 const enrollRouter = express.Router();
@@ -16,44 +15,82 @@ const checkRole = (...roles) => { //...spread operator extrak isi array
     };
 };
 
-//get id learner
-enrollRouter.get("/users/learner", auth, checkRole('learner'), async(req, res) => {
-    const users = await User.find({ learnerId: req.user._id });
-    try {
-        users.length === 0 ? res.status(404).send() : res.send(users);
-    } catch (err) {
-        res.status(500).send("err.message");
-    }
-});
+//check class
 
-//get id teacher
-enrollRouter.get("/users/teacher", auth, checkRole('teacher'), async(req, res) => {
-    const users = await User.find({ teacherId: req.user._id });
+
+
+//get list enroled id learner by token
+enrollRouter.get("/enroled/class/me", auth, checkRole('learner'), async(req, res) => {
+    const enroled = await Enroled.find({ learnerId: req.user._id });
     try {
-        users.length === 0 ? res.status(404).send() : res.send(users);
+        enroled ? res.status(200).json({
+            enroled
+        }) : res.status(404).send();
     } catch (err) {
         res.status(500).send(err.message);
     }
 });
 
-//enroll class
-enrollRouter.post("/enroll", auth, checkRole('learner', 'teacher'), async(req, res) => {
-    // console.log(auth.token)
+//get list enroled id teacher by token
+enrollRouter.get("/enroled/class", auth, checkRole('teacher'), async(req, res) => {
+
+    const enroled = await Enroled.find({ teacherId: req.user._id });
     try {
+        enroled ? res.status(200).json({
+            enroled
+        }) : res.status(404).send();
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+});
+
+//enroll class for student
+// enrollRouter.post("/enroll/class", auth, checkRole('learner'), async(req, res) => {
+//     // console.log(auth.token)
+//     try {
+
+//         const enroled = new Enroled({
+//             ...req.body //need 
+//         });
+//         await enroled.save();
+//         res.status(201).send({ Enroled });
+//     } catch (err) {
+//         res.status(400).send(err.message);
+//     }
+// });
+
+//enroll Classs  for student
+enrollRouter.post("/enroll/class", auth, checkRole('learner'), async(req, res) => {
+
+    try {
+        const cekenroled = await Enroled.find({ classId: req.body.classId, learnerId: req.user._id, });
+        if (cekenroled) {
+            throw Error("already registered"); // user belum terdaftar
+        }
 
         const enroled = new Enroled({
-            ...req.body //need 
+            classId: req.body.classId,
+            graduationStatus: false,
+            learnerId: req.user._id,
+            teacherId: req.body.teacherId,
+            schedule: req.body.schedule
+
         });
         await enroled.save();
-        res.status(201).send({ Enroled });
+        res.status(201).send({ enroled });
     } catch (err) {
         res.status(400).send(err.message);
     }
 });
 
+
+
 // Delete enroll
-enrollRouter.delete("/enroled/:id", auth, checkRole('learner'), async(req, res) => {
-    const enroled = await Enroled.findByIdAndDelete(req.params.id);
+enrollRouter.delete("/enroled/:classId", auth, checkRole('learner'), async(req, res) => {
+    const enroled = await Enroled.findOneAndDelete({
+        learnId: req.user._id, //dari auth
+        classId: req.params.classId //dari parameter classid
+    });
     try {
         enroled ? res.status(204).send(enroled) : res.status(404).send();
     } catch (err) {
@@ -62,7 +99,7 @@ enrollRouter.delete("/enroled/:id", auth, checkRole('learner'), async(req, res) 
 });
 
 //get all list for enroll
-enrollRouter.get("/enroled/all", auth, checkRole('learner'), async(req, res) => {
+enrollRouter.get("/enroled/all", auth, async(req, res) => {
     try {
         const enroled = await Enroled.find({});
         enroled ? res.status(200).json({
@@ -83,4 +120,16 @@ enrollRouter.get("/enroled/me", auth, checkRole('learner'), async(req, res) => {
     }
 });
 
+
+// kelas ku / narik kelas pake parameter learnId yang di dapat dari token
+enrollRouter.get("/enroled/:classId", auth, async(req, res) => {
+    try {
+        const enroled = await Enroled.find({ learnerId: req.params.classId });
+        res.status(200).send({ enroled });
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+});
+
+module.exports = enrollRouter;
 module.exports = enrollRouter;
