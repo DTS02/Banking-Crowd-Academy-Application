@@ -8,7 +8,8 @@ const topicRouter = require("./routers/topic");
 const uploadaws = require("./routers/awsUploadv2");
 const dashboard = require("./routers/dashboardAdmin");
 const webinar = require("./routers/webinar");
-
+const articleRouter = require("./routers/article");
+const portfolioRouter = require("./routers/portfolio")
 const enrolClassRouter = require("./routers/enroled");
 const bodyParser = require("body-parser");
 const auth = require("./middleware/auth");

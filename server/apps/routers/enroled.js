@@ -1,5 +1,5 @@
 const express = require("express");
-const Enroled = require("../models/enroledclass");
+const Enroled = require("../models/enroled");
 const User = require("../models/user");
 const auth = require("../middleware/auth");
 

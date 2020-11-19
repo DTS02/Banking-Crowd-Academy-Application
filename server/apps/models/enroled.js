@@ -6,6 +6,9 @@ const EnroledSchema = new mongoose.Schema({
     classId: {
         type: String,
     },
+    webinarId: {
+        type: String,
+    },
     teacherId: {
         type: String,
     },

@@ -1,6 +1,6 @@
 const express = require("express");
 const Webinar = require("../models/webinar");
-const Enroled = require("../models/enroledwebinar");
+const Enroled = require("../models/enroled");
 const auth = require("../middleware/auth");
 
 const webinarRouter = express.Router();

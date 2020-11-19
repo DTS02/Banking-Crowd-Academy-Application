@@ -1,6 +1,6 @@
 const express = require("express");
 const Class = require("../models/class");
-const Enroled = require("../models/enroledclass");
+const Enroled = require("../models/enroled");
 const auth = require("../middleware/auth");
 
 const classRouter = express.Router();
