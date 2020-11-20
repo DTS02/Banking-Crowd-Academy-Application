@@ -7,7 +7,7 @@ const dailyRouter = express.Router();
 dailyRouter.get("/dailyActivity", auth, async(req, res) => {
     const ID = req.user._id;
     try {
-        const activity = await Activity.find({ learnerId: ID }).sort({ date: -1 }).limit(10);
+        const activity = await Activity.find({ userId: ID }).sort({ date: -1 }).limit(10);
         activity ?
             res.status(200).json(
                 activity
