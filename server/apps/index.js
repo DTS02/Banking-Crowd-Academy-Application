@@ -1,5 +1,8 @@
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
+
+
 require("./databases/database");
 
 const userRouter = require("./routers/user");
@@ -19,7 +22,7 @@ const dailyActivityRouter = require("./routers/dailyActivity");
 
 const bodyParser = require("body-parser");
 const auth = require("./middleware/auth");
-const { Support } = require("aws-sdk");
+
 //const send = require('./middleware/awsUpload');
 
 //app assign express
