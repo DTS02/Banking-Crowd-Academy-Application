@@ -2,6 +2,9 @@ const express = require("express");
 const Class = require("../models/class");
 const Enroled = require("../models/enroled");
 const auth = require("../middleware/auth");
+const LikeC = require("../models/likeClass");
+const CommentC = require("../models/commentClass");
+
 
 const classRouter = express.Router();
 
@@ -31,7 +34,8 @@ classRouter.post("/class/", auth, checkRole('teacher'), async(req, res) => {
         const enroledClass = new Enroled({
             teacherId: req.user._id,
             classId: classs._id,
-            statusEnroled: true
+            graduationStatus: true,
+            enroledDetail: req.body.className
         })
         await enroledClass.save();
 
@@ -110,14 +114,21 @@ classRouter.get("/class/all", auth, checkRole('teacher', 'admin'), async(req, re
 
 //get class by id kalau user pilih spesifik
 classRouter.get("/class/:id", auth, async(req, res) => {
-    const _id = req.params.id;
-    try {
-        const classs = await Class.findById(_id);
-        classs ? res.status(200).json({
-            classs
-        }) : res.status(404).send();
-    } catch (err) {
-        res.status(500).send(err.message);
+
+    const classs = await Class.findById(req.params.id);
+    const likeC = await LikeC.find({
+        articleId: req.params.id
+    })
+    const commentC = await CommentC.find({
+        articleId: req.params.id
+    })
+
+    if (classs) {
+        res.json(classs, likeA, commentA)
+    } else {
+        res.status(404).json({
+            message: 'Article not found'
+        })
     }
 });
 

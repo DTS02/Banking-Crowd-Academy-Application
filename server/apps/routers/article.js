@@ -1,6 +1,8 @@
 const express = require("express");
 const auth = require("../middleware/auth");
 const Article = require("../models/article");
+const LikeA = require("../models/likeArticle");
+const CommentA = require("../models/commentArticle");
 
 const articleRouter = express.Router();
 
@@ -82,12 +84,18 @@ articleRouter.get("/article/all", auth, async(req, res) => {
 });
 
 
-//get article by id 
+//View Article Detail with comment & like 
 articleRouter.get("/article/:id", async(req, res) => {
     const article = await Article.findById(req.params.id);
+    const likeA = await LikeA.find({
+        articleId: req.params.id
+    })
+    const commentA = await CommentA.find({
+        articleId: req.params.id
+    })
 
     if (article) {
-        res.json(article)
+        res.json(article, likeA, commentA)
     } else {
         res.status(404).json({
             message: 'Article not found'
