@@ -12,7 +12,7 @@ const classRouter = express.Router();
 const checkRole = (...roles) => { //...spread operator extrak isi array 
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {
-            return res.send(403) // error fobbriden
+            return res.send(403) // error forbidden
         }
 
         next();
@@ -50,7 +50,7 @@ classRouter.post("/class/", auth, checkRole('teacher'), async(req, res) => {
 // Update class by ID for teacher
 classRouter.patch("/class/:id", auth, checkRole('teacher'), async(req, res) => {
     const updates = Object.keys(req.body);
-    const allowedUpdates = ["className", "classDetail", "classStart", "classEnd", "classPhoto", "classStatus"];
+    const allowedUpdates = ["className", "classTopic", "classDetail", "classPhoto", "classStatus", "classStart", "classEnd"];
     const isValidOperation = updates.every((update) =>
         allowedUpdates.includes(update)
     );
@@ -70,10 +70,10 @@ classRouter.patch("/class/:id", auth, checkRole('teacher'), async(req, res) => {
 });
 
 // Delete class
-classRouter.delete("/class/:id", auth, checkRole('admin'), async(req, res) => {
+classRouter.delete("/class/:id", auth, checkRole('teacher'), async(req, res) => {
     const classs = await Class.findByIdAndDelete(req.params.id);
     try {
-        classs ? res.status(204).send("class deleted") : res.status(404).send();
+        classs ? res.status(204).send("Class deleted") : res.status(404).send();
     } catch (err) {
         res.status(500).send(err.message);
     }
@@ -108,26 +108,22 @@ classRouter.get("/class/all", auth, checkRole('teacher', 'admin'), async(req, re
     }
 });
 
-
-
-
-
 //get class by id kalau user pilih spesifik
-classRouter.get("/class/:id", auth, async(req, res) => {
+classRouter.get("/class/active", auth, async(req, res) => {
 
     const classs = await Class.findById(req.params.id);
     const likeC = await LikeC.find({
-        articleId: req.params.id
+        classId: req.params.id
     })
     const commentC = await CommentC.find({
-        articleId: req.params.id
+        classId: req.params.id
     })
 
     if (classs) {
-        res.json(classs, likeA, commentA)
+        res.json(classs, likeC, commentC)
     } else {
         res.status(404).json({
-            message: 'Article not found'
+            message: 'Class not found'
         })
     }
 });
