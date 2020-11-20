@@ -47,7 +47,7 @@ router.post("/users/login", async(req, res) => {
 
         res.send({ token });
     } catch (e) {
-        res.status(403).send(e.message);
+        res.status(403).send("Your account has not been registered");
     }
 });
 
@@ -74,7 +74,7 @@ router.post("/users/logoutAll", auth, async(req, res) => {
         await req.user.save();
         res.status(200).send("success logout all token deleted");
     } catch (err) {
-        res.status(500).send();
+        res.status(500).send("invalid token");
     }
 });
 

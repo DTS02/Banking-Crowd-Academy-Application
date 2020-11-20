@@ -18,7 +18,7 @@ const checkRole = (...roles) => { //...spread operator extrak isi array
 };
 
 //add article
-articleRouter.post("/article/", auth, checkRole('teacher'), async(req, res) => {
+articleRouter.post("/class/topic/article/", auth, checkRole('teacher'), async(req, res) => {
     try {
 
         //createarticle
@@ -35,7 +35,7 @@ articleRouter.post("/article/", auth, checkRole('teacher'), async(req, res) => {
 });
 
 // Update Article
-articleRouter.patch("/article/:id", auth, checkRole('teacher'), async(req, res) => {
+articleRouter.patch("/class/topic/article/:id", auth, checkRole('teacher'), async(req, res) => {
     const updates = Object.keys(req.body);
     const allowedUpdates = ["topicId", "articleName", "articleDetail", "articleDocument", "indexArticle"];
     const isValidOperation = updates.every((update) =>
@@ -59,7 +59,7 @@ articleRouter.patch("/article/:id", auth, checkRole('teacher'), async(req, res) 
 });
 
 // Delete Article
-articleRouter.delete("/article/:id", auth, checkRole('teacher'), async(req, res) => {
+articleRouter.delete("/class/topic/article/:id", auth, checkRole('teacher'), async(req, res) => {
     const article = await Article.findByIdAndDelete(req.params.id);
     try {
         article ? res.status(204).send("article deleted") : res.status(404).send();
@@ -70,7 +70,7 @@ articleRouter.delete("/article/:id", auth, checkRole('teacher'), async(req, res)
 
 
 //get all list article
-articleRouter.get("/article/all", auth, async(req, res) => {
+articleRouter.get("/class/topic/article/all", auth, async(req, res) => {
     try {
         const article = await Article.find({});
         article ? res.status(200).json({
@@ -85,7 +85,7 @@ articleRouter.get("/article/all", auth, async(req, res) => {
 
 
 //View Article Detail with comment & like 
-articleRouter.get("/article/:id", async(req, res) => {
+articleRouter.get("/class/topic/article/:id", async(req, res) => {
     const article = await Article.findById(req.params.id);
     const likeA = await LikeA.find({
         articleId: req.params.id

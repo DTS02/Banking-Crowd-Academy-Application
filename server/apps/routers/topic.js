@@ -16,7 +16,7 @@ const checkRole = (...roles) => { //...spread operator extrak isi array
 };
 
 //create topic
-topicRouter.post("/topic/", auth, checkRole('teacher'), async(req, res) => {
+topicRouter.post("/class/topic/", auth, checkRole('teacher'), async(req, res) => {
     // console.log(auth.token)
     try {
 
@@ -33,7 +33,7 @@ topicRouter.post("/topic/", auth, checkRole('teacher'), async(req, res) => {
 });
 
 // Update topic by ID for teacher
-topicRouter.patch("/topic/:id", auth, checkRole('teacher'), async(req, res) => {
+topicRouter.patch("/class/topic/:id", auth, checkRole('teacher'), async(req, res) => {
     const updates = Object.keys(req.body);
     const allowedUpdates = ["classId", "topicName", "topicDetail", "topicDocument"];
     const isValidOperation = updates.every((update) =>
@@ -57,7 +57,7 @@ topicRouter.patch("/topic/:id", auth, checkRole('teacher'), async(req, res) => {
 });
 
 // Delete topic
-topicRouter.delete("/topic/:id", auth, checkRole('teacher'), async(req, res) => {
+topicRouter.delete("/class/topic/:id", auth, checkRole('teacher'), async(req, res) => {
     const topic = await Topic.findByIdAndDelete(req.params.id);
     try {
         topic ? res.status(204).send("Topic deleted!") : res.status(404).send();
@@ -66,10 +66,11 @@ topicRouter.delete("/topic/:id", auth, checkRole('teacher'), async(req, res) => 
     }
 });
 
-//get all list topic
+//get all list topic dari kelas
 topicRouter.get("/class/topic/all", auth, async(req, res) => {
+   
     try {
-        const topic = await Topic.find({});
+        const topic = await Topic.find();
         topic ? res.status(200).json({
             topic
         }) : res.status(404).send();
@@ -91,7 +92,7 @@ topicRouter.get("/topic/all", auth, async(req, res) => {
 });
 
 //get class by id jika user pilih spesifik
-topicRouter.get("/topic/:id", async(req, res) => {
+topicRouter.get("/class/topic/:id", async(req, res) => {
     const _id = req.params.id;
     try {
         const topic = await Topic.findById(_id);
