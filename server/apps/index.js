@@ -19,6 +19,7 @@ const dailyActivityRouter = require("./routers/dailyActivity");
 
 const bodyParser = require("body-parser");
 const auth = require("./middleware/auth");
+const { Support } = require("aws-sdk");
 //const send = require('./middleware/awsUpload');
 
 //app assign express
@@ -35,6 +36,17 @@ const port = process.env.PORT || 3002;
 
 //for debuggin wiht morgan
 app.use(morgan("dev"));
+
+
+//Support FE
+app.use(cors());
+
+app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+    next();
+});
 
 //controller 
 app.use(userRouter);
