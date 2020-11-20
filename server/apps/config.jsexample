@@ -3,5 +3,7 @@ module.exports = {
     AWS_ID: '',
     AWS_SECRET: '',
     BUCKET_NAME: '',
-    region: ''
+    region: '',
+    userGmail:,
+    passGmail:
 } 

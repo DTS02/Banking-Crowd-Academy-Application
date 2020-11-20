@@ -22,6 +22,7 @@
         "aws-sdk": "^2.794.0",
         "bcryptjs": "^2.4.3",
         "busboy": "^0.3.1",
+        "cors": "^2.8.5",
         "express": "^4.17.1",
         "express-fileupload": "^1.2.0",
         "express-formidable": "^1.2.0",
