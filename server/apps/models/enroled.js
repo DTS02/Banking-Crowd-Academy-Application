@@ -25,6 +25,9 @@ const EnroledSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    enroledDetail: {
+        type: String,
+    }
 
 }, { timestamps: true });
 

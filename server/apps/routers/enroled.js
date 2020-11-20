@@ -59,8 +59,8 @@ enrollRouter.post("/enroll/class", auth, checkRole('learner'), async(req, res) =
             graduationStatus: false,
             learnerId: req.user._id,
             teacherId: req.body.teacherId,
-            schedule: req.body.schedule
-
+            schedule: req.body.schedule,
+            enroledDetail: req.body.className
         });
         await enroled.save();
 
@@ -91,7 +91,8 @@ enrollRouter.post("/enroll/webinar", auth, checkRole('learner'), async(req, res)
             graduationStatus: false,
             learnerId: req.user._id,
             teacherId: req.body.teacherId,
-            schedule: req.body.schedule
+            schedule: req.body.schedule,
+            enroledDetail: req.body.webinarName
         });
         await enroled.save();
 
