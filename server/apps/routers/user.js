@@ -28,7 +28,9 @@ router.post("/users/signup", async(req, res) => {
         const user = new User(req.body);
         const token = await user.generateAuthToken();
         await user.save();
-        res.status(201).send({ user, token });
+        res.status(201).send("Success Registration, Please Login" + {
+            token
+        });
     } catch (err) {
         res.status(400).send(err.message);
     }
@@ -46,8 +48,8 @@ router.post("/users/login", async(req, res) => {
         const token = await user.generateAuthToken();
 
         res.send({ token });
-    } catch (e) {
-        res.status(403).send("Your account has not been registered");
+    } catch (Error) {
+        res.status(403).send(Error.message);
     }
 });
 

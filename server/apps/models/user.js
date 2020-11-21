@@ -117,13 +117,13 @@ userSchema.statics.findByCredentials = async(email, password) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-        throw "Unable to login"; // user belum terdaftar
+        throw Error("User Not Found!"); // user belum terdaftar
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-        throw "Unable to login"; // password nya salah
+        throw Error("Wrong Password"); // password nya salah
     }
 
     return user;

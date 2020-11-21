@@ -105,5 +105,5 @@ dist
 
 # config.js
 
-apps/config.js
+#apps/config.js
 

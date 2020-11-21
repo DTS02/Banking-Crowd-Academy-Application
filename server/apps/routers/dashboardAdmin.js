@@ -42,8 +42,16 @@ boardRouter.get("/info", auth, CheckRole("admin"), async(req, res) => {
             "role": "teacher"
         }).count();
 
+        console.log(users,
+            classes,
+            topics,
+            article,
+            activeLearner,
+            unactiveLearner,
+            activeTeacher,
+            unactiveTeacher)
 
-        users, classes, topics, article, activeLearner, unactiveLearner, activeTeacher, unactiveTeacher ? res.status(200).json({
+        res.status(200).json({
             users,
             classes,
             topics,
@@ -52,7 +60,7 @@ boardRouter.get("/info", auth, CheckRole("admin"), async(req, res) => {
             unactiveLearner,
             activeTeacher,
             unactiveTeacher
-        }) : res.status(404).send("data must complete");
+        })
 
     } catch (err) {
         res.status(500).send("err.message");
