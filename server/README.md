@@ -1,2 +1,2 @@
 # Banking-Crowd-Academy-APP
-Banking Crowd Academy Applications
+Banking Crowd Academy App
