@@ -72,7 +72,9 @@ webinarRouter.patch("/webinar/:id", auth, checkRole('teacher'), async(req, res) 
         updates.forEach((update) => (webinar[update] = req.body[update]));
 
         await webinar.save();
-        res.status(200).send({ Webinar })
+        webinar ? res.status(200).json({
+            webinar
+        }) : res.status(404).send(err.message);
     } catch (err) {
         res.status(500).send(err.message);
     }

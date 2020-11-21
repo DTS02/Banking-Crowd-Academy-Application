@@ -1,6 +1,7 @@
 const express = require("express");
 const auth = require("../middleware/auth");
 const Portfolio = require("../models/portfolio");
+const Activity = require("../models/activity");
 
 const portfolioRouter = express.Router();
 
@@ -32,7 +33,7 @@ portfolioRouter.post("/portfolio/", auth, async(req, res) => {
         });
         await activity.save();
 
-        res.status(201).send(Portfolio, activity);
+        res.status(201).send({ portfolio, activity });
     } catch (err) {
         res.status(400).send(err.message);
     }

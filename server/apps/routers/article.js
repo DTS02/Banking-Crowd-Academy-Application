@@ -27,7 +27,7 @@ articleRouter.post("/class/topic/article/", auth, checkRole('teacher'), async(re
         });
         await article.save();
 
-        res.status(201).send({ Article })
+        res.status(201).send({ article })
     } catch (err) {
         res.status(400).send(err.message);
     }

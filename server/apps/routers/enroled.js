@@ -46,7 +46,7 @@ enrollRouter.get("/enroled/teacher", auth, checkRole('teacher'), async(req, res)
 });
 
 
-enrollRouter.post("/enroll/class", auth, checkRole('learner'), async(req, res) => {
+enrollRouter.post("/class/enroll", auth, checkRole('learner'), async(req, res) => {
 
     try {
         const cekenroled = await Enroled.findOne({ classId: req.body.classId, learnerId: req.user._id, });
@@ -78,7 +78,7 @@ enrollRouter.post("/enroll/class", auth, checkRole('learner'), async(req, res) =
 });
 
 
-enrollRouter.post("/enroll/webinar", auth, checkRole('learner'), async(req, res) => {
+enrollRouter.post("/webinar/enroll", auth, checkRole('learner'), async(req, res) => {
 
     try {
         const cekenroled = await Enroled.findOne({ webinarId: req.body.webinarId, learnerId: req.user._id, });
@@ -123,6 +123,7 @@ enrollRouter.delete("/enroled/:classId", auth, checkRole('learner'), async(req, 
         res.status(500).send(err.message);
     }
 });
+
 // Delete enroll webinar
 enrollRouter.delete("/enroled/:webinarId", auth, checkRole('learner'), async(req, res) => {
     const enroled = await Enroled.findOneAndDelete({
