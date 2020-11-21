@@ -36,11 +36,22 @@ router.post("/users/signup", async(req, res) => {
         if (req.body.passwordConfirm !== req.body.password) {
             throw Error("Your password is not same with password comfirm!");;
         }
+        const cekUsername = await User.find({
+            "username": req.body.username
+        }).count()
+        const cekEmail = await User.find({
+            "email": req.body.email
+        }).count()
+
+        if (cekUsername + cekEmail > 0) {
+            throw Error("username/email already registered");;
+        }
         const user = new User(req.body);
         const token = await user.generateAuthToken();
         await user.save();
         res.status(201).send("Success Registration, Please Login").json(token);
     } catch (err) {
+
         res.status(400).send(err.message);
     }
 });

@@ -42,14 +42,6 @@ boardRouter.get("/info", auth, CheckRole("admin"), async(req, res) => {
             "role": "teacher"
         }).count();
 
-        console.log(users,
-            classes,
-            topics,
-            article,
-            activeLearner,
-            unactiveLearner,
-            activeTeacher,
-            unactiveTeacher)
 
         res.status(200).json({
             users,
