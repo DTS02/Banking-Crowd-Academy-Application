@@ -56,14 +56,14 @@ commentClassRouter.get("/class/comment/all", auth, async(req, res) => {
 
 //get comment in article by user id
 commentClassRouter.get("/class/comment/user/:id", async(req, res) => {
-    const commentC = await commentClass.find({userId},{classId});
+    const commentC = await commentClass.find({ userId }, { classId });
 
-    if(commentC) {
-      res.json(commentC)
+    if (commentC) {
+        res.json(commentC)
     } else {
-      res.status(404).json({
-        message: 'You have never commented!'
-      })
+        res.status(404).json({
+            message: 'You have never comment!'
+        })
     }
 })
 

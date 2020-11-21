@@ -13,10 +13,10 @@ cvRouter.get("/cvDownload", auth, async(req, res) => {
         const userInfo = await User.find({ userId: ID });
         const enroled = await Enroled.find({ LearnId: ID, graduationStatus: true });
         const portfolio = await Portfolio.find({ userId: ID });
-        userInfo, enrole, portfolio ?
-            res.status(200).json(
-                userInfo, enroled, portfolio
-            ) : res.status(404).send("no data , user Not Found/ never finish class / never Upload portfolio"); //
+
+        res.status(200).json(
+            userInfo, enroled, portfolio
+        )
     } catch (err) {
         res.status(500).send(err.message);
     }
