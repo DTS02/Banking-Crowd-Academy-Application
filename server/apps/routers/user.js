@@ -1,7 +1,7 @@
 const express = require("express");
 const User = require("../models/user");
 const auth = require("../middleware/auth");
-
+const cors = require("cors");
 
 
 
@@ -19,18 +19,27 @@ const CheckRole = (...roles) => {
 };
 
 
+router.use(cors());
+
+router.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+    next();
+});
+
 // Create User
+
 router.post("/users/signup", async(req, res) => {
     try {
+        console.log(req.body)
         if (req.body.passwordConfirm !== req.body.password) {
             throw Error("Your password is not same with password comfirm!");;
         }
         const user = new User(req.body);
         const token = await user.generateAuthToken();
         await user.save();
-        res.status(201).send("Success Registration, Please Login" + {
-            token
-        });
+        res.status(201).send("Success Registration, Please Login").json(token);
     } catch (err) {
         res.status(400).send(err.message);
     }
