@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //post setting
-const port = 3002;
+const port = process.env.PORT || 3001;
 
 //for debuggin wiht morgan
 app.use(morgan("dev"));
