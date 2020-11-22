@@ -32,8 +32,6 @@ const checkRole = (...roles) => { //...spread operator extrak isi array
 
 webinarRouter.post("/webinar/", auth, checkRole('pengajar'), async(req, res) => {
     try {
-
-
         //createwebinar
         const webinar = new Webinar({
             ...req.body,
@@ -41,15 +39,15 @@ webinarRouter.post("/webinar/", auth, checkRole('pengajar'), async(req, res) => 
         await webinar.save();
         await console.log(req.body.pengajarId + Webinar._id)
 
-        const enroled = new Enroled({
+        const enroledWebinar = new Enroled({
             pengajarId: req.user._id,
             webinarId: webinar._id,
             graduationStatus: true,
-            enroledDetail: req.body.className
+            enroledDetail: req.body.webinarName
         })
-        await enroled.save();
+        await enroledWebinar.save();
 
-        res.status(201).send({ webinar, enroled })
+        res.status(201).send({ webinar, enroledWebinar })
     } catch (err) {
         res.status(400).send(err.message);
     }

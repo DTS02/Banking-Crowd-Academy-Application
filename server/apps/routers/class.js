@@ -30,7 +30,6 @@ classRouter.post("/class/", auth, checkRole('pengajar'), async(req, res) => {
         await classs.save();
         console.log(req.body.pengajarId + Class._id)
 
-
         const enroledClass = new Enroled({
             pengajarId: req.user._id,
             classId: classs._id,
@@ -40,7 +39,7 @@ classRouter.post("/class/", auth, checkRole('pengajar'), async(req, res) => {
         await enroledClass.save();
 
 
-        res.status(201).send({ classs })
+        res.status(201).send({ classs, enroledClass })
     } catch (err) {
         res.status(400).send(err.message);
     }
