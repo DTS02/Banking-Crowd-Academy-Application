@@ -1,0 +1,27 @@
+.judul {
+  color: black;
+  font-family: Open Sans;
+  font-style: Bold;
+  font-size: 48px;
+  text-align: left;
+}
+
+h4 {
+  color: #40a8c4;
+  margin: 30px;
+  text-align: 30px;
+}
+
+
+.pilihtopik button {
+    margin-left : 40px;
+}
+.kartuArtikel{
+    display: flex;
+    justify-content: space-around;
+
+}
+.kartuArtikel button{
+    background-color: #40a8c4;
+
+}
