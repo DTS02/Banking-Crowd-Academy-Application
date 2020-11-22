@@ -7,16 +7,7 @@ const auth = require("../middleware/auth");
 const webinarRouter = express.Router();
 
 
-// //setup multer
-// const multer = require('multer');
 
-
-// const storage = multer.diskStorage({
-//     filename: function(req, file, cb) {
-//         cb(null, file.originalname);
-//     }
-// })
-// let upload = multer({ storage: storage, limits: { fileSize: 20000000 } })
 
 //check role
 const checkRole = (...roles) => { //...spread operator extrak isi array 

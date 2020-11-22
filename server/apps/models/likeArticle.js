@@ -10,7 +10,7 @@ const likeArticleSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please input articleId!"]
     },
-    like: {
+    likeStatus: {
         type: Boolean,
         required: false
     },
