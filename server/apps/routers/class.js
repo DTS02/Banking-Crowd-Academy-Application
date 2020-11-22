@@ -19,6 +19,33 @@ const checkRole = (...roles) => { //...spread operator extrak isi array
     };
 };
 
+//find baru
+classRouter.get("/class/find", auth, async(req, res) => {
+
+    let cari = req.body.className
+    const classs = await Class.find({
+        $or: [{
+                "className": {
+                    $regex: '.*' + cari + '.*'
+                }
+            },
+            {
+                "classDetail": {
+                    $regex: '.*' + cari + '.*'
+                }
+            }
+        ]
+    }).limit(5);
+
+    if (classs) {
+        res.status(200).json({
+            classs
+        })
+    } else {
+        res.status(404).json({ message: 'Users not found' })
+    }
+})
+
 
 classRouter.post("/class/", auth, checkRole('pengajar'), async(req, res) => {
     try {
@@ -109,27 +136,31 @@ classRouter.get("/class/all", auth, checkRole('pengajar', 'admin'), async(req, r
 
 //get class by id kalau user pilih spesifik
 classRouter.get("/class/:id", auth, async(req, res) => {
-
-    const classs = await Class.findById(req.params.id);
-    const likeC = await LikeC.find({
-        classId: req.params.id
-    })
-    const commentC = await CommentC.find({
-        classId: req.params.id
-    })
-
-    if (classs) {
-        res.json({
-            classs,
-            likeC,
-            commentC
+    try {
+        const classs = await Class.findById(req.params.id);
+        const likeC = await LikeC.find({
+            classId: req.params.id
         })
-        console.log(classs, likeC, commentC)
-    } else {
-        res.status(404).json({
-            message: 'Class not found'
+        const commentC = await CommentC.find({
+            classId: req.params.id
         })
+
+        if (classs) {
+            res.json({
+                classs,
+                likeC,
+                commentC
+            })
+            console.log(classs, likeC, commentC)
+        } else {
+            res.status(404).json({
+                message: 'Class not found'
+            })
+        }
+    } catch (err) {
+        res.status(500).send(err.message);
     }
 });
+
 
 module.exports = classRouter;
