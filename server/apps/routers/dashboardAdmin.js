@@ -25,21 +25,21 @@ boardRouter.get("/info", auth, CheckRole('admin'), async(req, res) => {
         const classes = await Class.find({}).count();
         const topics = await Topic.find({}).count();
         const article = await Article.find({}).count();
-        const activeLearner = await User.find({
+        const activePelajar = await User.find({
             "statusUser": 1,
-            "role": "learner"
+            "role": "pelajar"
         }).count();
-        const unactiveLearner = await User.find({
+        const unactivePelajar = await User.find({
             "statusUser": 0,
-            "role": "learner"
+            "role": "pelajar"
         }).count();
-        const activeTeacher = await User.find({
+        const activePengajar = await User.find({
             "statusUser": 1,
-            "role": "teacher"
+            "role": "pengajar"
         }).count();
-        const unactiveTeacher = await User.find({
+        const unactivePengajar = await User.find({
             "statusUser": 0,
-            "role": "teacher"
+            "role": "pengajar"
         }).count();
 
 
@@ -48,10 +48,10 @@ boardRouter.get("/info", auth, CheckRole('admin'), async(req, res) => {
             classes,
             topics,
             article,
-            activeLearner,
-            unactiveLearner,
-            activeTeacher,
-            unactiveTeacher
+            activePelajar,
+            unactivePelajar,
+            activePengajar,
+            unactivePengajar
         })
 
     } catch (err) {

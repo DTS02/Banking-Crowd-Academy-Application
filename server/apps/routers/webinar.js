@@ -30,7 +30,7 @@ const checkRole = (...roles) => { //...spread operator extrak isi array
 };
 // upload.single('file'), upload2aws.upload,
 
-webinarRouter.post("/webinar/", auth, checkRole('teacher'), async(req, res) => {
+webinarRouter.post("/webinar/", auth, checkRole('pengajar'), async(req, res) => {
     try {
 
 
@@ -39,10 +39,10 @@ webinarRouter.post("/webinar/", auth, checkRole('teacher'), async(req, res) => {
             ...req.body,
         });
         await webinar.save();
-        await console.log(req.body.teacherId + Webinar._id)
+        await console.log(req.body.pengajarId + Webinar._id)
 
         const enroled = new Enroled({
-            teacherId: req.user._id,
+            pengajarId: req.user._id,
             webinarId: webinar._id,
             graduationStatus: true,
             enroledDetail: req.body.className
@@ -56,8 +56,8 @@ webinarRouter.post("/webinar/", auth, checkRole('teacher'), async(req, res) => {
 
 });
 
-// Update webinar by ID for teacher
-webinarRouter.patch("/webinar/:id", auth, checkRole('teacher'), async(req, res) => {
+// Update webinar by ID for pengajar
+webinarRouter.patch("/webinar/:id", auth, checkRole('pengajar'), async(req, res) => {
     const updates = Object.keys(req.body);
     const allowedUpdates = ["webinarName", "webinarDetail", "webinarStart", "webinarEnd", "webinarPhoto", "webinarUrl"];
     const isValidOperation = updates.every((update) =>
@@ -83,7 +83,7 @@ webinarRouter.patch("/webinar/:id", auth, checkRole('teacher'), async(req, res) 
 });
 
 // Delete webinar
-webinarRouter.delete("/webinar/:id", auth, checkRole('teacher'), async(req, res) => {
+webinarRouter.delete("/webinar/:id", auth, checkRole('pengajar'), async(req, res) => {
     const webinar = await Webinar.findByIdAndDelete(req.params.id);
     try {
         webinar ? res.status(204).send("webinar deleted!") : res.status(404).send();
@@ -117,11 +117,11 @@ webinarRouter.get("/webinar/all", auth, async(req, res) => {
     }
 });
 
-//see all list webinar create by teacher id token 
-webinarRouter.get("/webinar/me", auth, checkRole('teacher'), async(req, res) => {
+//see all list webinar create by pengajar id token 
+webinarRouter.get("/webinar/me", auth, checkRole('pengajar'), async(req, res) => {
     try {
         const webinar = await Webinar.find({
-            teacherid: req.user._id
+            pengajarid: req.user._id
         });
         webinar ? res.status(200).json({
             webinar
@@ -131,11 +131,11 @@ webinarRouter.get("/webinar/me", auth, checkRole('teacher'), async(req, res) => 
     }
 });
 
-//see all list webinar create by teacher id 
-webinarRouter.get("/webinar/:teacherId", auth, checkRole('teacher'), async(req, res) => {
+//see all list webinar create by pengajar id 
+webinarRouter.get("/webinar/:pengajarId", auth, checkRole('pengajar'), async(req, res) => {
     try {
         const webinar = await Webinar.find({
-            teacherid: req.params.id
+            pengajarid: req.params.id
         });
         webinar ? res.status(200).json({
             webinar
