@@ -27,11 +27,13 @@ commentArticleRouter.post("/article/comment", auth, async(req, res) => {
         }
 
         const commentA = new commentArticle({
-            ...req.body
+            userId: req.user._id,
+            articleId: req.body.articleId,
+            commentDetail: req.body.commentDetail
         });
         await commentA.save();
 
-        res.status(201).send({ commentArticle });
+        res.status(201).send({ commentA });
     } catch (err) {
         res.status(400).send(err.message);
     }

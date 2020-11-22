@@ -130,26 +130,26 @@ enrollRouter.post("/webinar/enroll", auth, checkRole('pelajar'), async(req, res)
 
 
 // Delete enroll class
-enrollRouter.delete("/enroled/:classId", auth, checkRole('pelajar'), async(req, res) => {
+enrollRouter.delete("/class/enroled/:classId", auth, checkRole('pelajar'), async(req, res) => {
     const enroled = await Enroled.findOneAndDelete({
-        learnId: req.user._id, //dari auth
+        pelajarId: req.user._id, //dari auth
         classId: req.params.classId //dari parameter classid
     });
     try {
-        enroled ? res.status(204).send("enroll class deleted") : res.status(404).send();
+        enroled ? res.status(204).send("enroll class deleted") : res.status(404).send("your are not registered this class");
     } catch (err) {
         res.status(500).send(err.message);
     }
 });
 
 // Delete enroll webinar
-enrollRouter.delete("/enroled/:webinarId", auth, checkRole('pelajar'), async(req, res) => {
+enrollRouter.delete("/webinar/enroled/:webinarId", auth, checkRole('pelajar'), async(req, res) => {
     const enroled = await Enroled.findOneAndDelete({
-        learnId: req.user._id, //dari auth
+        pelajarId: req.user._id, //dari auth
         webinarId: req.params.webinarId //dari parameter webinarId
     });
     try {
-        enroled ? res.status(204).send("enrole deleted") : res.status(404).send();
+        enroled ? res.status(204).send("enrole deleted") : res.status(404).send("your are not registered this Webinar");
     } catch (err) {
         res.status(500).send(err.message);
     }
@@ -172,19 +172,10 @@ enrollRouter.get("/enroled/all", auth, async(req, res) => {
 
 // Update graduationStatus by ID enroled for pengajar
 enrollRouter.patch("/enroled/:id", auth, checkRole('pengajar'), async(req, res) => {
-    const updates = Object.keys(req.body);
-    const allowedUpdates = ["graduationStatus"];
-    const isValidOperation = updates.every((update) =>
-        allowedUpdates.includes(update)
-    );
-    if (!isValidOperation) {
-        return res.status(400).send();
-    }
-
     try {
-        const enroled = await Enroled.findById(req.params.id);
-        updates.forEach((update) => (enroled[update] = req.body[update]));
 
+        const enroled = await Enroled.findOneAndUpdate(req.params.id);
+        enroled.graduationStatus = req.body.graduationStatus
         await enroled.save();
         res.status(200).send({ enroled })
     } catch (err) {

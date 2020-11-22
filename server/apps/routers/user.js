@@ -108,10 +108,18 @@ router.get("/users/me", auth, (req, res) => {
 
 // Get profile by ID
 router.get("/users/:id", async(req, res) => {
-    const _id = req.params.id;
     try {
-        const user = await User.findById(_id);
-        user ? res.status(200).send(user) : res.status(404).send();
+        const user = await User.findById(req.params.id);
+        if (user) {
+            res.json(
+                user
+            )
+
+        } else {
+            res.status(404).json({
+                message: 'users not found'
+            })
+        }
     } catch (err) {
         res.status(500).send(err.message);
     }
@@ -175,43 +183,9 @@ router.delete("/users/:id", auth, CheckRole("admin"), async(req, res) => {
 });
 
 
-// router.get("/users/verification/?token", auth, (req, res) => {
-
-
-
-//     res.send(req.user);
-
-// });
-
-
-// func email verifikasi
-
 
 
 
 
 
 module.exports = router;
-
-
-// // Update user by ID
-// router.patch("/users/:id", auth, async(req, res) => {
-//     const updates = Object.keys(req.body);
-//     const allowedUpdates = ["firstName", "lastName", "password", "email", "photoProfile"];
-//     const isValidOperation = updates.every((update) =>
-//         allowedUpdates.includes(update)
-//     );
-//     if (!isValidOperation) {
-//         return res.status(400).send();
-//     }
-
-//     try {
-//         const user = await User.findById(req.params.id);
-//         updates.forEach((update) => (user[update] = req.body[update]));
-
-//         await user.save();
-//         user ? res.status(200).send(user) : res.status(404).send();
-//     } catch (err) {
-//         res.status(500).send(err.message);
-//     }
-// });
