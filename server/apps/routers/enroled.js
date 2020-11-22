@@ -51,7 +51,7 @@ enrollRouter.post("/class/enroll", auth, checkRole('pelajar'), async(req, res) =
     try {
         const cekclass = await Enroled.findOne({ classId: req.body.classId });
         if (!cekclass) {
-            throw Error("Not Class Found"); // user belum terdaftar
+            throw Error("Wrong class ID"); // user belum terdaftar
         }
 
         const cekenroled = await Enroled.findOne({ classId: req.body.classId, pelajarId: req.user._id, });
@@ -92,30 +92,37 @@ enrollRouter.post("/class/enroll", auth, checkRole('pelajar'), async(req, res) =
 enrollRouter.post("/webinar/enroll", auth, checkRole('pelajar'), async(req, res) => {
 
     try {
+        const cekIdwebinar = await Enroled.findOne({ webinarId: req.body.webinarId });
+        if (!cekIdwebinar) {
+            throw Error("Wrong Webinar ID"); // user belum terdaftar
+        }
         const cekenroled = await Enroled.findOne({ webinarId: req.body.webinarId, pelajarId: req.user._id, });
         if (cekenroled) {
             throw Error("already registered"); // user belum terdaftar
         }
+        const getData = await Enroled.findOne({
+            webinarId: req.body.webinarId
+        });
 
         const enroled = new Enroled({
             webinarId: req.body.webinarId,
             graduationStatus: false,
             pelajarId: req.user._id,
-            pengajarId: req.body.pengajarId,
+            pengajarId: getData.pengajarId,
             schedule: req.body.schedule,
-            enroledDetail: req.body.webinarName
+            enroledDetail: getData.enroledDetail
         });
         await enroled.save();
 
         const activity = new Activity({
             userId: req.user._id,
             activityTitle: "enroll Webinar ",
-            activityDetail: "webinarId : " + req.body.classId
+            activityDetail: "webinar Name : " + enroled.enroledDetail
         });
         await activity.save();
 
 
-        res.status(201).send(enroled, activity);
+        res.status(201).send({ enroled, activity });
     } catch (err) {
         res.status(400).send(err.message);
     }
