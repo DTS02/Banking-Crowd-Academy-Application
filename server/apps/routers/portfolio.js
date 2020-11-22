@@ -22,14 +22,17 @@ portfolioRouter.post("/portfolio/", auth, async(req, res) => {
 
         //create portfolio
         const portfolio = new Portfolio({
-            ...req.body
+            userId: req.user._id, // dari decoded auth login yaa
+            portfolioName: req.body.portfolioName,
+            portfolioDetail: req.body.portfolioDetail,
+            portfolioFile: req.body.portfolioFile
         });
         await portfolio.save();
 
         const activity = new Activity({
             userId: req.user._id,
             activityTitle: "Upload Portfolio ",
-            activityDetail: "portfolioId : " + req.body.classId
+            activityDetail: "portfolio : " + portfolio.portfolioName
         });
         await activity.save();
 
