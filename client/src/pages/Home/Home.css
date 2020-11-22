@@ -1,0 +1,21 @@
+
+.btn-Search {
+    background: url("./icon-search.png") no-repeat scroll 0 0 transparent;
+    background-color: #40A8C4;
+    border: none;
+    color: white;
+    padding: 3px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;    
+    cursor: pointer;
+    border-radius: 2px;
+  }
+
+  .margin-user{
+    margin: 4px 50px;
+  }
+
+  .span-inline{
+    margin: 4px 20px;
+  }
