@@ -4,6 +4,7 @@ const auth = require("../middleware/auth");
 const express = require("express");
 const dailyRouter = express.Router();
 
+
 dailyRouter.get("/dailyActivity", auth, async(req, res) => {
     const ID = req.user._id;
     try {

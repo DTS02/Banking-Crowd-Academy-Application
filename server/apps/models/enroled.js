@@ -11,11 +11,11 @@ const EnroledSchema = new mongoose.Schema({
         type: String,
         default: 'n/a'
     },
-    teacherId: {
+    pengajarId: {
         type: String,
         required: true,
     },
-    learnerId: {
+    pelajarId: {
         type: String,
     },
     schedule: {

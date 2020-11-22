@@ -18,7 +18,7 @@ const checkRole = (...roles) => { //...spread operator extrak isi array
 };
 
 //add article
-articleRouter.post("/class/topic/article/", auth, checkRole('teacher'), async(req, res) => {
+articleRouter.post("/class/topic/article/", auth, checkRole('pengajar'), async(req, res) => {
     try {
 
         //createarticle
@@ -27,7 +27,7 @@ articleRouter.post("/class/topic/article/", auth, checkRole('teacher'), async(re
         });
         await article.save();
 
-        res.status(201).send({ Article })
+        res.status(201).send({ article })
     } catch (err) {
         res.status(400).send(err.message);
     }
@@ -35,7 +35,7 @@ articleRouter.post("/class/topic/article/", auth, checkRole('teacher'), async(re
 });
 
 // Update Article
-articleRouter.patch("/class/topic/article/:id", auth, checkRole('teacher'), async(req, res) => {
+articleRouter.patch("/class/topic/article/:id", auth, checkRole('pengajar'), async(req, res) => {
     const updates = Object.keys(req.body);
     const allowedUpdates = ["topicId", "articleName", "articleDetail", "articleDocument", "indexArticle"];
     const isValidOperation = updates.every((update) =>
@@ -59,7 +59,7 @@ articleRouter.patch("/class/topic/article/:id", auth, checkRole('teacher'), asyn
 });
 
 // Delete Article
-articleRouter.delete("/class/topic/article/:id", auth, checkRole('teacher'), async(req, res) => {
+articleRouter.delete("/class/topic/article/:id", auth, checkRole('pengajar'), async(req, res) => {
     const article = await Article.findByIdAndDelete(req.params.id);
     try {
         article ? res.status(204).send("article deleted") : res.status(404).send();
