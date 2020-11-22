@@ -82,7 +82,7 @@ classRouter.delete("/class/:id", auth, checkRole('teacher'), async(req, res) => 
 //get all list detail  buat dashboard home
 classRouter.get("/dashboard/class/all", auth, async(req, res) => {
     try {
-        const classs = await Class.find({ classStatus: false });
+        const classs = await Class.find({ classStatus: true });
         if (classs) {
             res.status(200).json(classs)
         } else {
@@ -109,7 +109,7 @@ classRouter.get("/class/all", auth, checkRole('teacher', 'admin'), async(req, re
 });
 
 //get class by id kalau user pilih spesifik
-classRouter.get("/class/active", auth, async(req, res) => {
+classRouter.get("/class/:id", auth, async(req, res) => {
 
     const classs = await Class.findById(req.params.id);
     const likeC = await LikeC.find({
@@ -120,7 +120,12 @@ classRouter.get("/class/active", auth, async(req, res) => {
     })
 
     if (classs) {
-        res.json(classs, likeC, commentC)
+        res.json({
+            classs,
+            likeC,
+            commentC
+        })
+        console.log(classs, likeC, commentC)
     } else {
         res.status(404).json({
             message: 'Class not found'

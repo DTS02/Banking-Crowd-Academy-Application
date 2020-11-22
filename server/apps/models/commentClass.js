@@ -6,11 +6,11 @@ const commentClassSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please input userId!"]
     },
-   classId: {
+    classId: {
         type: String,
         required: [true, "Please input classId!"]
     },
-    comment: {
+    commentDetail: {
         type: String,
         required: [true, "Please input your comment!"]
     },

@@ -28,10 +28,10 @@ router.post("/users/signup", async(req, res) => {
             throw Error("Your password is not same with password comfirm!");;
         }
         const cekUsername = await User.find({
-            "userName": req.body.userName
+            "userName": req.body.userName //cek
         }).count()
         const cekEmail = await User.find({
-            "email": req.body.email
+            "email": req.body.email //cek
         }).count()
         console.log(cekUsername, cekEmail)
         if (cekUsername + cekEmail > 0) {

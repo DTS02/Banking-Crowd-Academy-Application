@@ -18,13 +18,15 @@ const checkRole = (...roles) => { //...spread operator extrak isi array
 //add comment in article
 commentClassRouter.post("/class/comment", auth, async(req, res) => {
     try {
-
         const commentC = new commentClass({
-            ...req.body
+            userId: req.user._id,
+            classId: req.body.classId,
+            commentDetail: req.body.comment
+
         });
         await commentC.save();
 
-        res.status(201).send({ commentClass });
+        res.status(201).send({ commentC });
     } catch (err) {
         res.status(400).send(err.message);
     }

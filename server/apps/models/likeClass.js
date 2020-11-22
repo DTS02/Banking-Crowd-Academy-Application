@@ -10,9 +10,8 @@ const likeClassSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please input classId!"]
     },
-    like: {
+    likeStatus: {
         type: Boolean,
-        required: false
     },
 
 }, { timestamps: true });
