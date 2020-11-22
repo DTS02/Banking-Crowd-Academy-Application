@@ -49,29 +49,40 @@ enrollRouter.get("/enroled/pengajar", auth, checkRole('pengajar'), async(req, re
 enrollRouter.post("/class/enroll", auth, checkRole('pelajar'), async(req, res) => {
 
     try {
+        const cekclass = await Enroled.findOne({ classId: req.body.classId });
+        if (!cekclass) {
+            throw Error("Not Class Found"); // user belum terdaftar
+        }
+
         const cekenroled = await Enroled.findOne({ classId: req.body.classId, pelajarId: req.user._id, });
         if (cekenroled) {
             throw Error("already registered"); // user belum terdaftar
         }
+        const getData = await Enroled.findOne({
+            classId: req.body.classId
+        });
 
         const enroled = new Enroled({
             classId: req.body.classId,
             graduationStatus: false,
             pelajarId: req.user._id,
-            pengajarId: req.body.pengajarId,
+            pengajarId: getData.pengajarId,
             schedule: req.body.schedule,
-            enroledDetail: req.body.className
+            enroledDetail: getData.enroledDetail
         });
         await enroled.save();
 
         const activity = new Activity({
             userId: req.user._id,
             activityTitle: "enroll Class ",
-            activityDetail: "classId : " + req.body.classId
+            activityDetail: "class Name : " + enroled.enroledDetail
         });
         await activity.save();
 
-        res.status(201).send(enroled, activity);
+        res.status(201).send({
+            enroled,
+            activity
+        });
     } catch (err) {
         res.status(400).send(err.message);
     }
