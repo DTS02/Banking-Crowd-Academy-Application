@@ -53,7 +53,7 @@ commentClassRouter.patch("/class/comment/:id", auth, async(req, res) => {
         }
         commentC.commentDetail = req.body.commentDetail,
 
-            await commentA.save();
+            await commentC.save();
         commentC ? res.status(200).send(commentC) : res.status(404).send();
     } catch (err) {
         res.status(500).send(err.message);
