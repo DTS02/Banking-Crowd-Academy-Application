@@ -40,8 +40,8 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ["learner", "teacher", "admin"],
-        default: "learner",
+        enum: ["pelajar", "pengajar", "admin"],
+        default: "pelajar",
     },
     password: {
         type: String,

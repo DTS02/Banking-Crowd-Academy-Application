@@ -18,7 +18,7 @@ const CheckRole = (...roles) => {
 };
 
 
-boardRouter.get("/info", auth, CheckRole("admin"), async(req, res) => {
+boardRouter.get("/info", auth, CheckRole('admin'), async(req, res) => {
 
     try {
         const users = await User.find({}).count();

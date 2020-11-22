@@ -20,9 +20,9 @@ const checkRole = (...roles) => { //...spread operator extrak isi array
 
 
 
-//get list enroled id learner by token
-enrollRouter.get("/enroled/me", auth, checkRole('learner'), async(req, res) => {
-    const enroled = await Enroled.find({ learnerId: req.user._id });
+//get list enroled id pelajar by token
+enrollRouter.get("/enroled/me", auth, checkRole('pelajar'), async(req, res) => {
+    const enroled = await Enroled.find({ pelajarId: req.user._id });
     try {
         enroled ? res.status(200).json({
             enroled
@@ -32,10 +32,10 @@ enrollRouter.get("/enroled/me", auth, checkRole('learner'), async(req, res) => {
     }
 });
 
-//get list enroled id teacher by token
-enrollRouter.get("/enroled/teacher", auth, checkRole('teacher'), async(req, res) => {
+//get list enroled id pengajar by token
+enrollRouter.get("/enroled/pengajar", auth, checkRole('pengajar'), async(req, res) => {
 
-    const enroled = await Enroled.find({ teacherId: req.user._id });
+    const enroled = await Enroled.find({ pengajarId: req.user._id });
     try {
         enroled ? res.status(200).json({
             enroled
@@ -46,10 +46,10 @@ enrollRouter.get("/enroled/teacher", auth, checkRole('teacher'), async(req, res)
 });
 
 
-enrollRouter.post("/class/enroll", auth, checkRole('learner'), async(req, res) => {
+enrollRouter.post("/class/enroll", auth, checkRole('pelajar'), async(req, res) => {
 
     try {
-        const cekenroled = await Enroled.findOne({ classId: req.body.classId, learnerId: req.user._id, });
+        const cekenroled = await Enroled.findOne({ classId: req.body.classId, pelajarId: req.user._id, });
         if (cekenroled) {
             throw Error("already registered"); // user belum terdaftar
         }
@@ -57,8 +57,8 @@ enrollRouter.post("/class/enroll", auth, checkRole('learner'), async(req, res) =
         const enroled = new Enroled({
             classId: req.body.classId,
             graduationStatus: false,
-            learnerId: req.user._id,
-            teacherId: req.body.teacherId,
+            pelajarId: req.user._id,
+            pengajarId: req.body.pengajarId,
             schedule: req.body.schedule,
             enroledDetail: req.body.className
         });
@@ -78,10 +78,10 @@ enrollRouter.post("/class/enroll", auth, checkRole('learner'), async(req, res) =
 });
 
 
-enrollRouter.post("/webinar/enroll", auth, checkRole('learner'), async(req, res) => {
+enrollRouter.post("/webinar/enroll", auth, checkRole('pelajar'), async(req, res) => {
 
     try {
-        const cekenroled = await Enroled.findOne({ webinarId: req.body.webinarId, learnerId: req.user._id, });
+        const cekenroled = await Enroled.findOne({ webinarId: req.body.webinarId, pelajarId: req.user._id, });
         if (cekenroled) {
             throw Error("already registered"); // user belum terdaftar
         }
@@ -89,8 +89,8 @@ enrollRouter.post("/webinar/enroll", auth, checkRole('learner'), async(req, res)
         const enroled = new Enroled({
             webinarId: req.body.webinarId,
             graduationStatus: false,
-            learnerId: req.user._id,
-            teacherId: req.body.teacherId,
+            pelajarId: req.user._id,
+            pengajarId: req.body.pengajarId,
             schedule: req.body.schedule,
             enroledDetail: req.body.webinarName
         });
@@ -112,7 +112,7 @@ enrollRouter.post("/webinar/enroll", auth, checkRole('learner'), async(req, res)
 
 
 // Delete enroll class
-enrollRouter.delete("/enroled/:classId", auth, checkRole('learner'), async(req, res) => {
+enrollRouter.delete("/enroled/:classId", auth, checkRole('pelajar'), async(req, res) => {
     const enroled = await Enroled.findOneAndDelete({
         learnId: req.user._id, //dari auth
         classId: req.params.classId //dari parameter classid
@@ -125,7 +125,7 @@ enrollRouter.delete("/enroled/:classId", auth, checkRole('learner'), async(req, 
 });
 
 // Delete enroll webinar
-enrollRouter.delete("/enroled/:webinarId", auth, checkRole('learner'), async(req, res) => {
+enrollRouter.delete("/enroled/:webinarId", auth, checkRole('pelajar'), async(req, res) => {
     const enroled = await Enroled.findOneAndDelete({
         learnId: req.user._id, //dari auth
         webinarId: req.params.webinarId //dari parameter webinarId
@@ -152,8 +152,8 @@ enrollRouter.get("/enroled/all", auth, async(req, res) => {
     }
 });
 
-// Update graduationStatus by ID enroled for teacher
-enrollRouter.patch("/enroled/:id", auth, checkRole('teacher'), async(req, res) => {
+// Update graduationStatus by ID enroled for pengajar
+enrollRouter.patch("/enroled/:id", auth, checkRole('pengajar'), async(req, res) => {
     const updates = Object.keys(req.body);
     const allowedUpdates = ["graduationStatus"];
     const isValidOperation = updates.every((update) =>

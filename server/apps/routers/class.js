@@ -20,7 +20,7 @@ const checkRole = (...roles) => { //...spread operator extrak isi array
 };
 
 
-classRouter.post("/class/", auth, checkRole('teacher'), async(req, res) => {
+classRouter.post("/class/", auth, checkRole('pengajar'), async(req, res) => {
     try {
 
         //createclass
@@ -28,11 +28,11 @@ classRouter.post("/class/", auth, checkRole('teacher'), async(req, res) => {
             ...req.body
         });
         await classs.save();
-        console.log(req.body.teacherId + Class._id)
+        console.log(req.body.pengajarId + Class._id)
 
 
         const enroledClass = new Enroled({
-            teacherId: req.user._id,
+            pengajarId: req.user._id,
             classId: classs._id,
             graduationStatus: true,
             enroledDetail: req.body.className
@@ -47,8 +47,8 @@ classRouter.post("/class/", auth, checkRole('teacher'), async(req, res) => {
 
 });
 
-// Update class by ID for teacher
-classRouter.patch("/class/:id", auth, checkRole('teacher'), async(req, res) => {
+// Update class by ID for pengajar
+classRouter.patch("/class/:id", auth, checkRole('pengajar'), async(req, res) => {
     const updates = Object.keys(req.body);
     const allowedUpdates = ["className", "classTopic", "classDetail", "classPhoto", "classStatus", "classStart", "classEnd"];
     const isValidOperation = updates.every((update) =>
@@ -70,7 +70,7 @@ classRouter.patch("/class/:id", auth, checkRole('teacher'), async(req, res) => {
 });
 
 // Delete class
-classRouter.delete("/class/:id", auth, checkRole('teacher'), async(req, res) => {
+classRouter.delete("/class/:id", auth, checkRole('pengajar'), async(req, res) => {
     const classs = await Class.findByIdAndDelete(req.params.id);
     try {
         classs ? res.status(204).send("Class deleted") : res.status(404).send();
@@ -94,8 +94,8 @@ classRouter.get("/dashboard/class/all", auth, async(req, res) => {
 });
 
 
-//get all  list for teacher 
-classRouter.get("/class/all", auth, checkRole('teacher', 'admin'), async(req, res) => {
+//get all  list for pengajar 
+classRouter.get("/class/all", auth, checkRole('pengajar', 'admin'), async(req, res) => {
     try {
         const classs = await Class.find({});
         if (classs) {
