@@ -44,6 +44,22 @@ commentClassRouter.post("/class/comment", auth, async(req, res) => {
 
 });
 
+commentClassRouter.patch("/class/comment/:id", auth, async(req, res) => {
+    try {
+        const commentC = await commentClass.findById(req.params.id);
+        //console.log(likeC.userId, req.user._id)
+        if (commentC.userId != req.user._id) {
+            throw Error("This not your Comment!");;
+        }
+        commentC.commentDetail = req.body.commentDetail,
+
+            await commentA.save();
+        commentC ? res.status(200).send(commentC) : res.status(404).send();
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+});
+
 // Delete Comment in Article
 commentClassRouter.delete("/class/comment/:id", auth, async(req, res) => {
     const commentC = await commentClass.findByIdAndDelete(req.params.id);
@@ -66,18 +82,5 @@ commentClassRouter.get("/class/comment/all", auth, async(req, res) => {
         res.status(500).send(err.message);
     }
 });
-
-//get comment in article by user id
-commentClassRouter.get("/class/comment/user/:id", async(req, res) => {
-    const commentC = await commentClass.find({ userId }, { classId });
-
-    if (commentC) {
-        res.json(commentC)
-    } else {
-        res.status(404).json({
-            message: 'You have never comment!'
-        })
-    }
-})
 
 module.exports = commentClassRouter;

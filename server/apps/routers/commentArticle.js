@@ -38,7 +38,25 @@ commentArticleRouter.post("/article/comment", auth, async(req, res) => {
 
 });
 
-// Delete Comment in Article
+
+
+commentArticleRouter.patch("/article/comment/:id", auth, async(req, res) => {
+    try {
+        const commentA = await commentArticle.findById(req.params.id);
+        //console.log(likeC.userId, req.user._id)
+        if (commentA.userId != req.user._id) {
+            throw Error("This not your Comment!");;
+        }
+        commentA.commentDetail = req.body.commentDetail,
+            await commentA.save();
+        commentA ? res.status(200).send(commentA) : res.status(404).send();
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+});
+
+
+
 commentArticleRouter.delete("/article/comment/:id", auth, async(req, res) => {
     const commentA = await commentArticle.findByIdAndDelete(req.params.id);
     try {
@@ -47,31 +65,5 @@ commentArticleRouter.delete("/article/comment/:id", auth, async(req, res) => {
         res.status(500).send(err.message);
     }
 });
-
-//get all list comment in article
-commentArticleRouter.get("/article/comment/all", auth, async(req, res) => {
-    try {
-        const commentA = await commentArticle.find({});
-        commentA ? res.status(200).json({
-            commentA
-
-        }) : res.status(404).send(err.message);
-    } catch (err) {
-        res.status(500).send(err.message);
-    }
-});
-
-//get comment in article by user id
-commentArticleRouter.get("/article/comment/user/:id", async(req, res) => {
-    const commentA = await commentArticle.find({ userId }, { articleId });
-
-    if (commentA) {
-        res.json(commentA)
-    } else {
-        res.status(404).json({
-            message: 'You have never commented!'
-        })
-    }
-})
 
 module.exports = commentArticleRouter;

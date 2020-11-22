@@ -6,11 +6,11 @@ const commentArticleSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please input userId!"]
     },
-   articleId: {
+    articleId: {
         type: String,
         required: [true, "Please input article Id!"]
     },
-    comment: {
+    commentDetail: {
         type: String,
         required: [true, "Please input your comment!"]
     },
