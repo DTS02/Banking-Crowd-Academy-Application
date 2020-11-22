@@ -16,26 +16,26 @@ const checkRole = (...roles) => { //...spread operator extrak isi array
     };
 };
 
-//add like in article
+//add like in class
 likeClassRouter.post("/class/like/", auth, async(req, res) => {
     try {
 
-        const cekClass = await classs.find({
-            classId: req.body.classId
+        const cekClass = await classs.findOne({
+            _id: req.body.classId
         }).countDocuments()
-
+        console.log(cekClass)
         if (cekClass == 0) {
             throw Error("Cannot find class!");;
         }
 
         const likeC = new likeClass({
             userId: req.user._id,
-            classId: req.params.classId,
-            likeStatue: true,
+            classId: req.body.classId,
+            likeStatus: true,
         });
         await likeC.save();
 
-        res.status(201).send({ likeClass });
+        res.status(201).send({ likeC });
     } catch (err) {
         res.status(400).send(err.message);
     }
@@ -44,6 +44,10 @@ likeClassRouter.post("/class/like/", auth, async(req, res) => {
 likeClassRouter.patch("/class/like/:id", auth, async(req, res) => {
     try {
         const likeC = await likeClass.findById(req.params.id);
+        //console.log(likeC.userId, req.user._id)
+        if (likeC.userId != req.user._id) {
+            throw Error("Cannot update like Not Authorized!");;
+        }
         likeC.booking = req.body.likeStatus,
 
 
