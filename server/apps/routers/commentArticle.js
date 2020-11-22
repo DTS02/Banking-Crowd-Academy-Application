@@ -1,7 +1,7 @@
 const express = require("express");
 const auth = require("../middleware/auth");
 const commentArticle = require("../models/commentArticle");
-
+const Article = require("../models/article");
 const commentArticleRouter = express.Router();
 
 //check role
@@ -18,6 +18,13 @@ const checkRole = (...roles) => { //...spread operator extrak isi array
 //add comment in article
 commentArticleRouter.post("/article/comment", auth, async(req, res) => {
     try {
+        const cekArticle = await Article.findOne({
+            _id: req.body.articleId
+        }).countDocuments()
+        console.log(cekArticle)
+        if (cekArticle == 0) {
+            throw Error("Cannot find Article!");;
+        }
 
         const commentA = new commentArticle({
             ...req.body
@@ -56,14 +63,14 @@ commentArticleRouter.get("/article/comment/all", auth, async(req, res) => {
 
 //get comment in article by user id
 commentArticleRouter.get("/article/comment/user/:id", async(req, res) => {
-    const commentA = await commentArticle.find({userId},{articleId});
+    const commentA = await commentArticle.find({ userId }, { articleId });
 
-    if(commentA) {
-      res.json(commentA)
+    if (commentA) {
+        res.json(commentA)
     } else {
-      res.status(404).json({
-        message: 'You have never commented!'
-      })
+        res.status(404).json({
+            message: 'You have never commented!'
+        })
     }
 })
 

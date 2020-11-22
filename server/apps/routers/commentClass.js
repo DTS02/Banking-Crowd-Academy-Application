@@ -1,6 +1,7 @@
 const express = require("express");
 const auth = require("../middleware/auth");
 const commentClass = require("../models/commentClass");
+const Classs = require("../models/class");
 
 const commentClassRouter = express.Router();
 
@@ -18,6 +19,16 @@ const checkRole = (...roles) => { //...spread operator extrak isi array
 //add comment in article
 commentClassRouter.post("/class/comment", auth, async(req, res) => {
     try {
+
+        const cekClass = await Classs.find({
+            _id: req.body.classId
+        }).countDocuments()
+
+        console.log(cekClass)
+        if (cekClass == 0) {
+            throw Error("Cannot find class!");;
+        }
+
         const commentC = new commentClass({
             userId: req.user._id,
             classId: req.body.classId,
