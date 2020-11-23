@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import SearchBox from "./SearchBox";
+import Profile from '../pages/Profil/Profile';
 import LP from "../pages/LandingPage/LP"
 import './styles.css'
 
@@ -53,7 +54,7 @@ const HeaderApp = () => {
                     <NavDropdown.Item>Kelas</NavDropdown.Item>
                   </LinkContainer>
                   <LinkContainer to="/Profil">
-                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                    <NavDropdown.Item onClick={Profile}>Profile</NavDropdown.Item>
                   </LinkContainer>
                   <NavDropdown.Item onClick={logoutHandler}>
                     Logout

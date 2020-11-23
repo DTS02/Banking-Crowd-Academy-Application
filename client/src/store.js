@@ -18,8 +18,8 @@ const reducer = combineReducers({
  
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
-  userDetails: userDetailsReducer,
-  userUpdateProfile: userUpdateProfileReducer,
+  userProfileDetails: userDetailsReducer,
+  userProfileEdit: userUpdateProfileReducer,
   userList: userListReducer,
   userDelete: userDeleteReducer,
   userUpdate: userUpdateReducer,
@@ -36,6 +36,10 @@ const userInfoFromStorage = localStorage.getItem('userInfo')
 const initialState = {
   
   userLogin: { userInfo: userInfoFromStorage },
+  userLogin: { userInfo: userInfoFromStorage },
+  userRegister: {token: userInfoFromStorage},
+  userProfileDetails: {token: userInfoFromStorage},
+  userProfileEdit: {token: userInfoFromStorage},
 }
 
 const middleware = [thunk]
