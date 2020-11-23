@@ -36,11 +36,3 @@ body{
 .card-img-top:hover{
     transform: scale(1.8);
 }
-.labelmodal{
-    color: black;
-    font-family: sans-serif
-}
-.p2{
-    font-size: 10px;
-    margin-left: 0px;
-}

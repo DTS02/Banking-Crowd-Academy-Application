@@ -11,6 +11,7 @@ import DashboardAdmin from './pages/AdminPanel/DashboardAdmin'
 import KelolaPengguna from './pages/AdminPanel/KelolaPengguna'
 import Home from './pages/Home/Home'
 import Profile from './pages/Profil/Profile'
+import modalDafarKelas from './component/ModalDaftarKelas'
 import MenuKelas from './pages/Kelas/MenuKelas'
 
 const App = () => {
@@ -32,7 +33,8 @@ const App = () => {
          
            <Route path='/' component={Home} exact />
             <Route path='/Dashboard' component={Home} exact />
-            <Route path='/Kelas' component={MenuKelas} exact />
+            <Route path='/Kelas' component={DetailKelas} exact />
+//             <Route path='/Kelas' component={MenuKelas} exact />
             <Route path='/Profil' component={Profile} exact />
 
             {/* <Route
