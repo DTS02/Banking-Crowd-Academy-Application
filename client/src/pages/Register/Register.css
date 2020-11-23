@@ -1,7 +1,7 @@
 .headtitle {
   position: relative;
   width: 300px;
-  height: 147px;
+  height: 145px;
   margin-top: 20px;
   left: 20px;
   right: 180px;
@@ -9,9 +9,13 @@
   font-style: normal;
   font-weight: bold;
   font-size: 32px;
-  line-height: 35px;
+  line-height: 40px;
 
   color: #222831;
+}
+.passnote{
+  margin: 0px;
+  font-style: italic;
 }
 .nama-satu {
   margin-left: 20px;
@@ -79,7 +83,8 @@
   background: blue;
 }
 .kelogin {
-  margin: 0px;
+margin-top: 10px; 
+  margin-bottom: 10px;
   margin-left:20px;
 
   font-family: Open Sans;

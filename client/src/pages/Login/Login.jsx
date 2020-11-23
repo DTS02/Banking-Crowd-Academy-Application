@@ -37,10 +37,11 @@ const Login = ({ location, history }) => {
         < Form className="login" onSubmit={submitHandler}>
           <Form.Group>
             <Form.Label className="font-weight-bold">
-              Selamat Datang Kamu,
+              Selamat Datang Kamu, <br/><br/>Yuk Masuk!
             </Form.Label>
+           
           </Form.Group>
-          <Form.Label className="font-weight-bold">Yuk Masuk!</Form.Label>
+         
           {error && <Message variant="danger">{error}</Message>}
           {loading && <Loader />}
           

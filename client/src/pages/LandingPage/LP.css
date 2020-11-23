@@ -27,11 +27,12 @@ h3{
   
   .bg{
     background-image: url("../../assets/bg-landingpage.jpg");
-    height: 500px;
+    width: 100%;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
+    margin-top : 100px;
   }
   
   .head{

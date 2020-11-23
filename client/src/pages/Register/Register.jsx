@@ -109,8 +109,12 @@ const Register = ({ location, history }) => {
                 name="email"
                 placeholder="Email"
             ></Form.Control>
+             <Form.Text id="passwordHelpBlock"className="passnote" muted>
+           Password Minimal 8 Karakter.
+          </Form.Text>
           </Form.Group>
           <Form.Group className="nama-dua" controlId="password">
+          
               <Form.Control
                 value={password}
                 required
@@ -119,6 +123,8 @@ const Register = ({ location, history }) => {
                 name="password"
                 placeholder="Password"
             ></Form.Control>
+           
+             
           </Form.Group>
           <Form.Group className="nama-dua" controlId="passwordConfirm">
               <Form.Control

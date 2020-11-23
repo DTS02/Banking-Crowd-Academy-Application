@@ -12,7 +12,7 @@ class DetailKelas extends Component {
     return (
       <Fragment>
         <div>
-          <Navbar bg="light" expand="lg">
+          {/* <Navbar bg="light" expand="lg">
             <Navbar.Brand href="#home">Banking Crowd Academy</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
@@ -31,7 +31,7 @@ class DetailKelas extends Component {
                 <Button variant="outline-success">Search</Button>
               </Form>
             </Navbar.Collapse>
-          </Navbar>
+          </Navbar> */}
           <Carousel>
             <Carousel.Item>
               <img
@@ -71,7 +71,7 @@ class DetailKelas extends Component {
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Temporibus accusamus ad porro
                 </Card.Text>
-                <Button variant="primary">Baca</Button>
+                <Button className="btnArtikel"variant="primary">Baca</Button>
               </Card.Body>
             </Card>
             <Card style={{ width: "18rem" }}>
@@ -82,7 +82,7 @@ class DetailKelas extends Component {
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Temporibus accusamus ad porro
                 </Card.Text>
-                <Button variant="primary" >Baca</Button>
+                <Button className="btnArtikel" variant="primary" >Baca</Button>
               </Card.Body>
             </Card>
             <Card style={{ width: "18rem" }}>
@@ -93,7 +93,7 @@ class DetailKelas extends Component {
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Temporibus accusamus ad porro
                 </Card.Text>
-                <Button variant="primary">Baca</Button>
+                <Button className="btnArtikel" variant="primary">Baca</Button>
               </Card.Body>
             </Card>
             <Card style={{ width: "18rem" }}>
@@ -104,7 +104,7 @@ class DetailKelas extends Component {
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Temporibus accusamus ad porro
                 </Card.Text>
-                <Button variant="primary">Baca</Button>
+                <Button className="btnArtikel" variant="p rimary">Baca</Button>
               </Card.Body>
             </Card>
           </CardDeck>

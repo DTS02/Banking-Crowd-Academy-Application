@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../actions/userActions";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -6,6 +6,8 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import SearchBox from "./SearchBox";
+import LP from "../pages/LandingPage/LP"
+import './styles.css'
 
 const HeaderApp = () => {
   const dispatch = useDispatch();
@@ -18,20 +20,32 @@ const HeaderApp = () => {
   };
 
   return (
+    <Fragment>
     <header>
-      <Navbar bg="white" expand="lg" collapseOnSelect>
-        <Container>
-          <LinkContainer to="/">
-            <Navbar.Brand>
-              <strong>Banking Crowd Academy</strong>
-            </Navbar.Brand>
-          </LinkContainer>
+      <Navbar  className="NavbarAll" expand="lg" collapseOnSelect>
+          <Container>
+            {userInfo ? (
+              <LinkContainer to="/">
+                <Navbar.Brand>
+                  <strong>Banking Crowd Academy</strong>
+                </Navbar.Brand>
+              </LinkContainer>
+             ): (
+                <LinkContainer to="/">
+                  <Navbar.Brand>
+                    <strong>Banking Crowd Academy</strong>
+                  </Navbar.Brand>
+                </LinkContainer>
+                
+              )}
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Route render={({ history }) => <SearchBox history={history} />} />
+            <Navbar.Collapse id="basic-navbar-nav">
+              {userInfo ? (
+                <Route render={({ history }) => <SearchBox history={history} />} />
+              ) : ('')}
             <Nav className="ml-auto">
               {userInfo ? (
-                <NavDropdown title={userInfo.userName} id="userName">
+                <NavDropdown title={userInfo.userName} id="userName" >
                    <LinkContainer to="/Dashboard">
                     <NavDropdown.Item>Dashboard</NavDropdown.Item>
                   </LinkContainer>
@@ -54,9 +68,10 @@ const HeaderApp = () => {
                     <Nav.Link>Masuk</Nav.Link>
                   </LinkContainer>
                   <h3 style={{ color: "#40A8C4" }}>|</h3>
-                  <LinkContainer to="/register ">
+                  <LinkContainer to="/register">
                     <Nav.Link>Daftar</Nav.Link>
-                  </LinkContainer>
+                    </LinkContainer>
+             
                 </Nav>
               )}
               {userInfo && userInfo.isAdmin && (
@@ -76,7 +91,10 @@ const HeaderApp = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-    </header>
+      </header>
+     
+      </Fragment>
+         
   );
 };
 
