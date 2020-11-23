@@ -3,10 +3,15 @@ import "./Card-Style.css";
 import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import SearchBox from "../../component/SearchBox";
+import { Component } from "react";
+import axios from 'axios';
+import { authHeader } from "../../actions/userActions";
+
 const Cards = (props) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
   return (
     <div className="card text-center shadow">
       <div className="overflow">
@@ -14,11 +19,8 @@ const Cards = (props) => {
       </div>
       <div className="card-body text-dark">
         <h4 className="card-tittle">{props.title}</h4>
-        <p className="card-text text-secondary">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eligendi
-          pariatur sed nihil odio officiis quibusdam omnis, adipisci ad
-          repellendus at.
-        </p>
+        <p className="card-text text-secondary">{props.description}</p>
+        <p className="card-text text-secondary"> Start Learn : {props.date}</p>
         <Modal
           show={show}
           onHide={handleClose}
@@ -33,9 +35,9 @@ const Cards = (props) => {
           <Modal.Body>
     
  
-          <p className="labelmodal">Kamu Memilih Kelas : Design UI/UX</p>
+          <p className="labelmodal">Kamu Memilih Kelas : {props.title}</p>
           <SearchBox />
-          <p className="labelmodal">Jadwal Kelas : Senin, 13.00 (WIB)</p>
+  <p className="labelmodal">Jadwal Kelas : {props.date}</p>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="primary" className="btn1">
@@ -65,6 +67,24 @@ const Cards = (props) => {
       </div>
     </div>
   );
+
 };
+
+class ApiHandler extends Component{
+  state = {
+    enroll:[],
+}
+
+
+componentDidMount(){
+   axios.get(`/class/all`, {headers: authHeader()})
+   .then(res => {
+       const enroll = res.data;
+       console.log(res.data);
+       this.setState({enroll})
+   });
+}
+
+}
 
 export default Cards;
