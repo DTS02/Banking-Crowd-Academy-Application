@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component,Fragment } from 'react';
 import { Button, FormControl, Form } from 'react-bootstrap';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -16,20 +16,43 @@ import Cards from './Cards';
 
 class Home extends Component {
     render() {
+        const ColoredLine = ({ color }) => (
+            <hr
+                style={{
+                    color: color,
+                    backgroundColor: color,
+                    height: 0.5
+                }}
+            />
+        );
+            
+     
         return (
-                 <div>   <body>
-                        <div className="bg">
-                            <div className="bg-container">
-                                <h1>Selamat Datang, Suna Rintarou !</h1>
-                                <p>Ada banyak Topik menarik yang bisa kamu pilih,
-                                    yuk cek topik yang lagi tren di sini.
+                <Fragment>
+                <div>   <body>
+                    <div className="bg">
+                        <div className="bg-container">
+                            <h1>Selamat Datang, Kawan</h1>
+                            <p>Ada banyak Topik menarik yang bisa kamu pilih,
+                            yuk cek topik yang lagi tren di sini.
                                 </p>
-                            </div>
                         </div>
-                        <Cards/>
-                    </body>
-          </div>
-        )
+                </div>
+                    <div>
+                    <ColoredLine color=" rgba(64, 168, 196, 1)" />
+                        {/* <hr >Top Ten</hr> */}
+                        
+                        <Cards />
+                        <hr />
+                        <Cards />
+                    {/* <hr>Kelas Populer</hr>
+                    <Cards /> */}
+                    </div>
+                </body>
+                </div>
+                </Fragment>
+            )
+        
     }
 }
 

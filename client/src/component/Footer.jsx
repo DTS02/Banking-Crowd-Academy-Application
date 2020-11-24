@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import "./AdminPanel.css";
+import "../pages/AdminPanel/AdminPanel.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 class Footer extends Component {

@@ -17,6 +17,7 @@ const MenuKelas = () => {
   return (
     <Fragment>
       <Carousel>
+        
         <Carousel.Item>
           <img
             className="d-block w-100"
@@ -24,6 +25,15 @@ const MenuKelas = () => {
             width="100%"
             alt="gambar"
           />
+          </Carousel.Item>
+    
+              <Carousel.Caption>
+                <div className="judul">
+                  Belajar Senang 
+                  <br /> Menyenangkan
+                </div>
+        </Carousel.Caption>
+        </Carousel>
           <Tabs defaultActiveKey="semuaKelas" id="uncontrolled-tab-example">
             <Tab eventKey="semuaKelas" title="Semua Kelas">
               <Cards />
@@ -36,8 +46,7 @@ const MenuKelas = () => {
                 <br /> Di Kelas Desain Grafis
               </div>
             </Carousel.Caption> */}
-        </Carousel.Item>
-      </Carousel>
+        
     </Fragment>
   );
 };

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
 import HeaderApp from './component/HeaderApp'
+import Footer from './component/Footer'
 import LP from './pages/LandingPage/LP'
 import Login from './pages/Login/Login'
 import Register from './pages/Register/Register'
@@ -12,7 +13,7 @@ import KelolaPengguna from './pages/AdminPanel/KelolaPengguna'
 import Home from './pages/Home/Home'
 import Profile from './pages/Profil/Profile'
 import MenuKelas from './pages/Kelas/MenuKelas'
-
+import Artikel from './component/Artikel'
 const App = () => {
   const dispatch = useDispatch();
 
@@ -34,7 +35,8 @@ const App = () => {
             <Route path='/Dashboard' component={Home} exact />
             <Route path='/Kelas' component={MenuKelas} exact />
             <Route path='/Profil' component={Profile} exact />
-
+            <Route path="/DetailKelas" component={DetailKelas} exact />
+            <Route path="/artikel" component={Artikel} exact/>
             {/* <Route
             path='/admin/Home'
             component={DashboardAdmin}
@@ -53,6 +55,7 @@ const App = () => {
               
               </Container>
         )}
+      <Footer />
       </Router>
      
   )

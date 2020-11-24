@@ -61,6 +61,17 @@ export const login = (email, password) => async (dispatch) => {
   }
 }
 
+export function authHeader() {
+  // return authorization header with basic auth credentials
+  let user = JSON.parse(localStorage.getItem('userInfo'));
+  console.log(user)
+  if (user && user.token) {
+      return { Authorization: `Bearer ${user.token}` };
+  } else {
+      return {};
+  }
+}
+
 export const logout = () => (dispatch) => {
   localStorage.removeItem('userInfo')
   dispatch({ type: USER_LOGOUT })
@@ -108,7 +119,7 @@ export const register = (firstName,lastName,userName,email,role, password,passwo
   }
 }
 
-export const getUserDetails = (_id) => async (dispatch, getState) => {
+export const getUserDetails = (id) => async (dispatch, getState) => {
   try {
     dispatch({
       type: USER_DETAILS_REQUEST,
@@ -124,7 +135,7 @@ export const getUserDetails = (_id) => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.get(`/users/me${_id}`, config)
+    const { data } = await axios.get(`/users/me/`, config)
 
     dispatch({
       type: USER_DETAILS_SUCCESS,
@@ -145,7 +156,7 @@ export const getUserDetails = (_id) => async (dispatch, getState) => {
   }
 }
 
-export const updateUserProfile = (user) => async (dispatch, getState) => {
+export const updateUserProfile = (firstName,lastName,userName,email, role,password,passwordConfirm) => async (dispatch, getState) => {
   try {
     dispatch({
       type: USER_UPDATE_PROFILE_REQUEST,
@@ -157,12 +168,11 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
 
-    const { data } = await axios.patch(`/users/me`, user, config)
+    const { data } = await axios.patch(`/users/me/`,firstName,lastName,userName,email, role, config)
 
     dispatch({
       type: USER_UPDATE_PROFILE_SUCCESS,
@@ -173,6 +183,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       payload: data,
     })
     localStorage.setItem('userInfo', JSON.stringify(data))
+
   } catch (error) {
     const message =
       error.response && error.response.data.message

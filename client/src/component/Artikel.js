@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // import Image from "react-bootstrap/Image";
 import Carousel from 'react-bootstrap/Carousel'
 import React , {Component} from "react";
-import CommentBox from './komentar';
+import CommentBox from './Komentar';
 import Banner from '../assets/bannerArtikel.png'
 import './style.css';
 import { Form, Button, Col, Container, Row} from "react-bootstrap";

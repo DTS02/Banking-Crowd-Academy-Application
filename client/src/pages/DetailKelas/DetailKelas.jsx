@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { BrowserRouter as Router, Route,Link } from 'react-router-dom'
 import Navbar from "react-bootstrap/Navbar";
 import Gambar from "../../assets/banner.png";
 import Carousel from "react-bootstrap/Carousel";
@@ -71,7 +72,7 @@ class DetailKelas extends Component {
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Temporibus accusamus ad porro
                 </Card.Text>
-                <Button className="btnArtikel"variant="primary">Baca</Button>
+                <Link to="/artikel">   <Button className="btnArtikel" variant="p rimary">                Baca</Button></Link>
               </Card.Body>
             </Card>
             <Card style={{ width: "18rem" }}>
@@ -82,7 +83,7 @@ class DetailKelas extends Component {
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Temporibus accusamus ad porro
                 </Card.Text>
-                <Button className="btnArtikel" variant="primary" >Baca</Button>
+                <Link to="/artikel">   <Button className="btnArtikel" variant="p rimary">                Baca</Button></Link>
               </Card.Body>
             </Card>
             <Card style={{ width: "18rem" }}>
@@ -93,7 +94,7 @@ class DetailKelas extends Component {
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Temporibus accusamus ad porro
                 </Card.Text>
-                <Button className="btnArtikel" variant="primary">Baca</Button>
+                <Link to="/artikel">   <Button className="btnArtikel" variant="p rimary">                Baca</Button></Link>
               </Card.Body>
             </Card>
             <Card style={{ width: "18rem" }}>
@@ -104,7 +105,8 @@ class DetailKelas extends Component {
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Temporibus accusamus ad porro
                 </Card.Text>
-                <Button className="btnArtikel" variant="p rimary">Baca</Button>
+                <Link to="/artikel">   <Button className="btnArtikel" variant="p rimary">                Baca</Button></Link>
+a
               </Card.Body>
             </Card>
           </CardDeck>
